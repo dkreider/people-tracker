@@ -7,6 +7,7 @@
 #include <QStringList>
 #include <QAbstractItemView>
 #include <QMessageBox>
+#include <QDebug>
 #include "ui_peopletracker.h"
 
 

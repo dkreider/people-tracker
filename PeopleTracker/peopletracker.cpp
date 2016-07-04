@@ -55,10 +55,20 @@ void peopleTracker::on_saveButton_clicked()
     ui->listView->edit(index); */
 }
 
-
+// Removed selected person in listView.
 void peopleTracker::on_deleteButton_clicked()
 {
-    model->removeRows(ui->listView->currentIndex().row(), 1);
+    int response = QMessageBox::warning(this, tr("Are you sure?"),
+                                        tr("Are you sure you want to delete this person?\n"),
+                                        QMessageBox::Yes,
+                                        QMessageBox::No);
+    if(response == QMessageBox::Yes) {
+        model->removeRows(ui->listView->currentIndex().row(), 1);
+    }
+    else {
+        // Do nothing.
+    }
+
 }
 
 // Event to close the application via File -> Close.
@@ -67,6 +77,7 @@ void peopleTracker::on_actionExit_triggered()
     QMainWindow::close();
 }
 
+// About box via Help -> About.
 void peopleTracker::on_actionAbout_triggered()
 {
     QMessageBox::about(this, tr("About Tracks Tracker"),
