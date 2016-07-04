@@ -19,6 +19,7 @@ peopleTracker::peopleTracker(QWidget *parent) :
     ui->listView->setEditTriggers(QAbstractItemView::AnyKeyPressed | QAbstractItemView::DoubleClicked);
 }
 
+
 peopleTracker::~peopleTracker()
 {
     delete ui;
@@ -64,4 +65,14 @@ void peopleTracker::on_deleteButton_clicked()
 void peopleTracker::on_actionExit_triggered()
 {
     QMainWindow::close();
+}
+
+void peopleTracker::on_actionAbout_triggered()
+{
+    QMessageBox::about(this, tr("About Tracks Tracker"),
+            tr("<h2>Tracks Tracker 0.1</h2>"
+            "<p>Copyright &copy; 2016 - Kreider Software Solutions"
+            "<p>People Tracker is a simple application "
+            "that endevours to give users a simple way"
+            "to track customer data."));
 }

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>People Tracker</string>
+   <string>Tracks Tracker</string>
   </property>
   <property name="windowIcon">
    <iconset>

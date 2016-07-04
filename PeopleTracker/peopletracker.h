@@ -6,6 +6,7 @@
 #include <QStringListModel>
 #include <QStringList>
 #include <QAbstractItemView>
+#include <QMessageBox>
 #include "ui_peopletracker.h"
 
 
@@ -29,6 +30,8 @@ private slots:
     void on_deleteButton_clicked();
 
     void on_actionExit_triggered();
+
+    void on_actionAbout_triggered();
 
 private:
     Ui::peopleTracker *ui;
