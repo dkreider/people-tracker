@@ -7,6 +7,16 @@ peopleTracker::peopleTracker(QWidget *parent) :
     ui(new Ui::peopleTracker)
 {
     ui->setupUi(this);
+
+    // Create model.
+    model = new QStringListModel(this);
+    // Glue model and listView together
+    QStringList List;
+    List << "1st person" << "2nd person" << "3rd person";
+    model->setStringList(List);
+    ui->listView->setModel(model);
+
+    ui->listView->setEditTriggers(QAbstractItemView::AnyKeyPressed | QAbstractItemView::DoubleClicked);
 }
 
 peopleTracker::~peopleTracker()
@@ -32,9 +42,20 @@ void peopleTracker::on_clearButton_clicked()
 
 void peopleTracker::on_saveButton_clicked()
 {
-    /*QVariant Name = ui->nameEdit->text();
-    ui->listView->model()->insertRow(1);
-    //ui->listView->model->setData(ui->listView->model()->index(1), QVariant Name);
-    */
+    /*
+    // Get the position.
+    int row = ui->listView->currentIndex().row();
+    // Enable the addition of more rows.
+    model->insertRows(row, 1);
+    // Get row for edit mode.
+    QModelIndex index = model->index(row);
+    // Enable item selection and put it in edit mode.
+    ui->listView->setCurrentIndex(index);
+    ui->listView->edit(index); */
 }
 
+
+void peopleTracker::on_deleteButton_clicked()
+{
+    model->removeRows(ui->listView->currentIndex().row(), 1);
+}

@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include <QListView>
+#include <QStringListModel>
+#include <QStringList>
+#include <QAbstractItemView>
 #include "ui_peopletracker.h"
 
 
@@ -23,8 +26,11 @@ private slots:
 
     void on_saveButton_clicked();
 
+    void on_deleteButton_clicked();
+
 private:
     Ui::peopleTracker *ui;
+    QStringListModel *model;
 };
 
 #endif // PEOPLETRACKER_H
