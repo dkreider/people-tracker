@@ -59,3 +59,9 @@ void peopleTracker::on_deleteButton_clicked()
 {
     model->removeRows(ui->listView->currentIndex().row(), 1);
 }
+
+// Event to close the application via File -> Close.
+void peopleTracker::on_actionExit_triggered()
+{
+    QMainWindow::close();
+}

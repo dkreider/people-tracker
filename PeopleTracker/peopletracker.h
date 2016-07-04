@@ -28,6 +28,8 @@ private slots:
 
     void on_deleteButton_clicked();
 
+    void on_actionExit_triggered();
+
 private:
     Ui::peopleTracker *ui;
     QStringListModel *model;
