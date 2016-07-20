@@ -47,7 +47,6 @@ void peopleTracker::on_saveButton_clicked()
                              QMessageBox::Ok);
         ui->nameEdit->setFocus();
     }
-
     else {
         // Add name to end of name database file.
         QFile nameDataBase("names.txt");
@@ -56,7 +55,6 @@ void peopleTracker::on_saveButton_clicked()
                                  tr("Error!"),
                                  tr("Sorry but an error occurred while trying to open database to remove name."),
                                  QMessageBox::Ok);
-
         }
         else {
             QString name = ui->nameEdit->text();
@@ -91,7 +89,6 @@ void peopleTracker::on_deleteButton_clicked()
                                  tr("Error!"),
                                  tr("Sorry but an error occurred while trying to open database to remove name."),
                                  QMessageBox::Ok);
-
         }
         // Remove name from database file.
         else {
