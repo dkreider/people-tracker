@@ -90,9 +90,8 @@ void peopleTracker::on_deleteButton_clicked()
                                  tr("Sorry but an error occurred while trying to open database to remove name."),
                                  QMessageBox::Ok);
         }
-        // Remove name from database file.
         else {
-
+            // Remove name from database file.
         }
         // Reload database to view changes.
         loadNames("names.txt");
