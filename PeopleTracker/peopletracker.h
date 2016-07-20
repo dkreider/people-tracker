@@ -1,14 +1,17 @@
 #ifndef PEOPLETRACKER_H
 #define PEOPLETRACKER_H
 
+//#define NAME_DATA_BASE data.txt
+
 #include <QMainWindow>
 #include <QListView>
+#include <QList>
 #include <QStringListModel>
 #include <QStringList>
 #include <QAbstractItemView>
 #include <QMessageBox>
-#include <QDebug>
-#include "ui_peopletracker.h"
+#include <QFile>
+#include <QTextStream>
 
 
 namespace Ui {
@@ -21,6 +24,10 @@ class peopleTracker : public QMainWindow
 
 public:
     explicit peopleTracker(QWidget *parent = 0);
+    void appendNameToDataBase(QString Name);
+    void addPerson(QString Name);
+    void loadNames(QString names);
+
     ~peopleTracker();
 
 private slots:
@@ -34,9 +41,12 @@ private slots:
 
     void on_actionAbout_triggered();
 
+    void on_actionLoad_customers_triggered();
+
 private:
     Ui::peopleTracker *ui;
-    QStringListModel *model;
+    QStringListModel *people;
+    QStringList *List;
 };
 
 #endif // PEOPLETRACKER_H
