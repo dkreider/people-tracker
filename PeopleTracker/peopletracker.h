@@ -12,7 +12,9 @@
 #include <QMessageBox>
 #include <QFile>
 #include <QTextStream>
-
+#include <QSqlQuery>
+#include <QSqlDatabase>
+#include <QSqlRecord>
 
 namespace Ui {
 class peopleTracker;
@@ -26,7 +28,7 @@ public:
     explicit peopleTracker(QWidget *parent = 0);
     void appendNameToDataBase(QString Name);
     void addPerson(QString Name);
-    void loadNames(QString names);
+    void loadNames(QString path_to_database);
 
     ~peopleTracker();
 

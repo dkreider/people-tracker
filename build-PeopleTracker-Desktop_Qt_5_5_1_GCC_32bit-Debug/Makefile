@@ -12,10 +12,10 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_CORE_LIB
 CFLAGS        = -m32 -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -m32 -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I../people-tracker/PeopleTracker -I. -I/opt/Qt/5.5/gcc/include -I/opt/Qt/5.5/gcc/include/QtWidgets -I/opt/Qt/5.5/gcc/include/QtGui -I/opt/Qt/5.5/gcc/include/QtCore -I. -I. -I/opt/Qt/5.5/gcc/mkspecs/linux-g++-32
+INCPATH       = -I../people-tracker/PeopleTracker -I. -I/opt/Qt/5.5/gcc/include -I/opt/Qt/5.5/gcc/include/QtWidgets -I/opt/Qt/5.5/gcc/include/QtGui -I/opt/Qt/5.5/gcc/include/QtSql -I/opt/Qt/5.5/gcc/include/QtCore -I. -I. -I/opt/Qt/5.5/gcc/mkspecs/linux-g++-32
 QMAKE         = /opt/Qt/5.5/gcc/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -36,7 +36,7 @@ DISTNAME      = PeopleTracker1.0.0
 DISTDIR = /home/daniel/QT/build-PeopleTracker-Desktop_Qt_5_5_1_GCC_32bit-Debug/.tmp/PeopleTracker1.0.0
 LINK          = g++
 LFLAGS        = -m32 -Wl,-rpath,/opt/Qt/5.5/gcc -Wl,-rpath,/opt/Qt/5.5/gcc/lib
-LIBS          = $(SUBLIBS) -L/opt/Qt/5.5/gcc/lib -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -L/opt/Qt/5.5/gcc/lib -lQt5Widgets -lQt5Gui -lQt5Sql -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -187,8 +187,7 @@ DIST          = /opt/Qt/5.5/gcc/mkspecs/features/spec_pre.prf \
 		/opt/Qt/5.5/gcc/mkspecs/features/exceptions.prf \
 		/opt/Qt/5.5/gcc/mkspecs/features/yacc.prf \
 		/opt/Qt/5.5/gcc/mkspecs/features/lex.prf \
-		../people-tracker/people-tracker/PeopleTracker/PeopleTracker.pro ../people-tracker/PeopleTracker/peopletracker.h \
-		../people-tracker/PeopleTracker/database.h ../people-tracker/PeopleTracker/main.cpp \
+		../people-tracker/people-tracker/PeopleTracker/PeopleTracker.pro ../people-tracker/PeopleTracker/peopletracker.h ../people-tracker/PeopleTracker/main.cpp \
 		../people-tracker/PeopleTracker/peopletracker.cpp
 QMAKE_TARGET  = PeopleTracker
 DESTDIR       = #avoid trailing-slash linebreak
@@ -357,6 +356,7 @@ Makefile: ../people-tracker/PeopleTracker/PeopleTracker.pro /opt/Qt/5.5/gcc/mksp
 		../people-tracker/PeopleTracker/PeopleTracker.pro \
 		/opt/Qt/5.5/gcc/lib/libQt5Widgets.prl \
 		/opt/Qt/5.5/gcc/lib/libQt5Gui.prl \
+		/opt/Qt/5.5/gcc/lib/libQt5Sql.prl \
 		/opt/Qt/5.5/gcc/lib/libQt5Core.prl
 	$(QMAKE) -spec linux-g++-32 CONFIG+=debug -o Makefile ../people-tracker/PeopleTracker/PeopleTracker.pro
 /opt/Qt/5.5/gcc/mkspecs/features/spec_pre.prf:
@@ -496,6 +496,7 @@ Makefile: ../people-tracker/PeopleTracker/PeopleTracker.pro /opt/Qt/5.5/gcc/mksp
 ../people-tracker/PeopleTracker/PeopleTracker.pro:
 /opt/Qt/5.5/gcc/lib/libQt5Widgets.prl:
 /opt/Qt/5.5/gcc/lib/libQt5Gui.prl:
+/opt/Qt/5.5/gcc/lib/libQt5Sql.prl:
 /opt/Qt/5.5/gcc/lib/libQt5Core.prl:
 qmake: FORCE
 	@$(QMAKE) -spec linux-g++-32 CONFIG+=debug -o Makefile ../people-tracker/PeopleTracker/PeopleTracker.pro
@@ -511,7 +512,7 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../people-tracker/PeopleTracker/peopletracker.h ../people-tracker/PeopleTracker/database.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../people-tracker/PeopleTracker/peopletracker.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../people-tracker/PeopleTracker/main.cpp ../people-tracker/PeopleTracker/peopletracker.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../people-tracker/PeopleTracker/peopletracker.ui $(DISTDIR)/
 
@@ -672,7 +673,7 @@ moc_peopletracker.cpp: /opt/Qt/5.5/gcc/include/QtWidgets/QMainWindow \
 		/opt/Qt/5.5/gcc/include/QtCore/QFile \
 		/opt/Qt/5.5/gcc/include/QtCore/QTextStream \
 		../people-tracker/PeopleTracker/peopletracker.h
-	/opt/Qt/5.5/gcc/bin/moc $(DEFINES) -I/opt/Qt/5.5/gcc/mkspecs/linux-g++-32 -I/home/daniel/QT/people-tracker/PeopleTracker -I/opt/Qt/5.5/gcc/include -I/opt/Qt/5.5/gcc/include/QtWidgets -I/opt/Qt/5.5/gcc/include/QtGui -I/opt/Qt/5.5/gcc/include/QtCore -I. ../people-tracker/PeopleTracker/peopletracker.h -o moc_peopletracker.cpp
+	/opt/Qt/5.5/gcc/bin/moc $(DEFINES) -I/opt/Qt/5.5/gcc/mkspecs/linux-g++-32 -I/home/daniel/QT/people-tracker/PeopleTracker -I/opt/Qt/5.5/gcc/include -I/opt/Qt/5.5/gcc/include/QtWidgets -I/opt/Qt/5.5/gcc/include/QtGui -I/opt/Qt/5.5/gcc/include/QtSql -I/opt/Qt/5.5/gcc/include/QtCore -I. ../people-tracker/PeopleTracker/peopletracker.h -o moc_peopletracker.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -1011,8 +1012,7 @@ peopletracker.o: ../people-tracker/PeopleTracker/peopletracker.cpp ../people-tra
 		/opt/Qt/5.5/gcc/include/QtGui/qtextdocument.h \
 		/opt/Qt/5.5/gcc/include/QtWidgets/QToolBar \
 		/opt/Qt/5.5/gcc/include/QtWidgets/qtoolbar.h \
-		/opt/Qt/5.5/gcc/include/QtWidgets/QWidget \
-		../people-tracker/PeopleTracker/database.h
+		/opt/Qt/5.5/gcc/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o peopletracker.o ../people-tracker/PeopleTracker/peopletracker.cpp
 
 moc_peopletracker.o: moc_peopletracker.cpp 

@@ -6,14 +6,11 @@ peopleTracker::peopleTracker(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::peopleTracker)
 {
     ui->setupUi(this);
-    /***********
-     * We begin by opening the data file that contains all names and then insert those names into
-     * the list view.
-     **********/
-    QString customerNames("names.txt");
-    loadNames(customerNames);
+    // Load names
+    loadNames("people.db");
 
 }
+
 
 peopleTracker::~peopleTracker()
 {
@@ -39,62 +36,59 @@ void peopleTracker::on_clearButton_clicked()
 
 void peopleTracker::on_saveButton_clicked()
 {
-    // Make sure we at least have a name.
-    if(ui->nameEdit->text() == NULL) {
-        QMessageBox::warning(this,
-                             tr("More info needed!"),
-                             tr("We need at least a name before we can save the customer."),
-                             QMessageBox::Ok);
-        ui->nameEdit->setFocus();
+    QSqlQuery query;
+    QString name = ui->nameEdit->text();
+    query.prepare("INSERT INTO people (name) VALUES (:name)");
+    query.bindValue(":name", name);
+    if(query.exec()) {
+        // Do nothing.
     }
     else {
-        // Add name to end of name database file.
-        QFile nameDataBase("names.txt");
-        if(!nameDataBase.open(QIODevice::Append)) {
-            QMessageBox::warning(this,
-                                 tr("Error!"),
-                                 tr("Sorry but an error occurred while trying to open database to remove name."),
-                                 QMessageBox::Ok);
-        }
-        else {
-            QString name = ui->nameEdit->text();
-            if(nameDataBase.size() == 0) {
-                QTextStream out(&nameDataBase);
-                out << name;
-            }
-            else {
-                QTextStream out(&nameDataBase);
-                out << "\n" << name;
-            }
-            // Reload database to view changes.
-            loadNames("names.txt");
-            // Close file.
-            nameDataBase.close();
-        }
+        QMessageBox::warning(this,
+                        tr("Error"),
+                        tr("Error adding another person to database."),
+                        QMessageBox::Ok);
     }
+    loadNames("people.db");
 }
 
 // Removed selected person in listView.
 void peopleTracker::on_deleteButton_clicked()
 {
-    int response = QMessageBox::warning(this, tr("Are you sure?"),
-                                        tr("Are you sure you want to delete this person?\n"),
-                                        QMessageBox::Yes,
-                                        QMessageBox::No);
-    if(response == QMessageBox::Yes) {
-        // Open database file.
-        QFile nameDataBase("names.txt");
-        if(!nameDataBase.open(QIODevice::ReadWrite | QIODevice::Text)) {
-            QMessageBox::warning(this,
-                                 tr("Error!"),
-                                 tr("Sorry but an error occurred while trying to open database to remove name."),
-                                 QMessageBox::Ok);
+
+}
+
+
+// Load names from DataBase.
+void peopleTracker::loadNames(QString path_to_database)
+{
+    people = new QStringListModel(this);
+    QSqlDatabase database;
+    database = QSqlDatabase::addDatabase("QSQLITE");
+    database.setDatabaseName(path_to_database);
+
+
+    if (!database.open())
+    {
+        QMessageBox error;
+        error.setText("Unable to open database.");
+        error.exec();
+
+    }
+    else
+    {
+        // Load data from database.
+        QStringList names;
+        QSqlQuery query("SELECT * FROM people");
+        int idName = query.record().indexOf("name");
+        while (query.next())
+        {
+            QString name = query.value(idName).toString();
+            names.append(name);
         }
-        else {
-            // Remove name from database file.
-        }
-        // Reload database to view changes.
-        loadNames("names.txt");
+        // Glue model and listView together
+        people->setStringList(names);
+        ui->listView->setModel(people);
     }
 }
 
@@ -113,30 +107,4 @@ void peopleTracker::on_actionAbout_triggered()
             "<p>People Tracker is a simple application "
             "that endevours to give users an easy way "
             "to track customer data."));
-}
-
-void peopleTracker::loadNames(QString fileName)
-{
-    //QFile nameList("names.txt");
-    QFile nameDataBase(fileName);
-    QStringList names;
-    if(!nameDataBase.open(QIODevice::ReadOnly)) {
-        QMessageBox::warning(this,
-                             tr("Error"),
-                             tr("There was an error opening the list of customer names."),
-                             QMessageBox::Ok);
-    }
-
-    else {
-        QTextStream in(&nameDataBase);
-        while(!in.atEnd()) {
-            names.append(in.readLine());
-            // Create model.
-            people = new QStringListModel(this);
-            // Glue model and listView together
-            people->setStringList(names);
-            ui->listView->setModel(people);
-            nameDataBase.close();
-        }
-    }
 }
