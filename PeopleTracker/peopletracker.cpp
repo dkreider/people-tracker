@@ -152,6 +152,57 @@ void peopleTracker::loadNames(QString path_to_database)
     }
 }
 
+// Stolen example from http://stackoverflow.com/questions/18093156/how-do-i-get-the-items-selected-from-a-qlistview
+// Used to return selected person from listView.
+QString peopleTracker::on_listView_clicked()
+{
+    QModelIndexList list = ui->listView->selectionModel()->selectedIndexes();
+    QStringList names;
+    foreach (const QModelIndex &index, list) {
+       names.append(index.data(Qt::DisplayRole).toString());
+    }
+    return names.join("");
+}
+
+// Stolen example from http://stackoverflow.com/questions/18093156/how-do-i-get-the-items-selected-from-a-qlistview
+// Used to return rest of person's data from DB after being selected in the listView.
+void peopleTracker::on_listView_clicked(const QModelIndex &index)
+{
+    QModelIndexList list = ui->listView->selectionModel()->selectedIndexes();
+    QStringList names;
+    foreach (const QModelIndex &index, list) {
+       names.append(index.data(Qt::DisplayRole).toString());
+    }
+
+    QString name = names.join("");
+    QSqlDatabase database;
+    database = QSqlDatabase::addDatabase("QSQLITE");
+    database.setDatabaseName("people.db");
+
+    if (!database.open())
+    {
+        QMessageBox error;
+        error.setText("Unable to open database.");
+        error.exec();
+
+    }
+    else {
+        QSqlQuery query;
+        query.prepare("SELECT name FROM people WHERE name = (:name)");
+        query.bindValue(":name", name);
+        if(query.exec()) {
+            ui->nameEdit->setText(name);
+        }
+        else {
+            QMessageBox::warning(this,
+                            tr("Error"),
+                            tr("Uknown error getting name from database."),
+                            QMessageBox::Ok);
+            qDebug() << query.lastError();
+        }
+    }
+}
+
 
 // Event to close the application via File -> Close.
 void peopleTracker::on_actionExit_triggered()
@@ -169,16 +220,3 @@ void peopleTracker::on_actionAbout_triggered()
             "that endevours to give users an easy way "
             "to track customer data."));
 }
-
-// Stolen example from http://stackoverflow.com/questions/18093156/how-do-i-get-the-items-selected-from-a-qlistview
-// Used to return selected person from listView.
-QString peopleTracker::on_listView_clicked()
-{
-    QModelIndexList list = ui->listView->selectionModel()->selectedIndexes();
-    QStringList names;
-    foreach (const QModelIndex &index, list) {
-       names.append(index.data(Qt::DisplayRole).toString());
-    }
-    return names.join("");
-}
-

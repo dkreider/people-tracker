@@ -51,6 +51,8 @@ private slots:
 
     QString on_listView_clicked();
 
+    void on_listView_clicked(const QModelIndex &index);
+
 private:
     Ui::peopleTracker *ui;
     QStringListModel *people;
