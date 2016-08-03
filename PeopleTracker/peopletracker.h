@@ -17,6 +17,7 @@
 #include <QSqlRecord>
 #include <QSqlError>
 #include <QDebug>
+#include <QModelIndex>
 
 namespace Ui {
 class peopleTracker;
@@ -31,6 +32,7 @@ public:
     void appendNameToDataBase(QString Name);
     void addPerson(QString Name);
     void loadNames(QString path_to_database);
+    QString isPersonSelected();
 
     ~peopleTracker();
 
@@ -46,6 +48,8 @@ private slots:
     void on_actionAbout_triggered();
 
     void on_actionLoad_customers_triggered();
+
+    QString on_listView_clicked();
 
 private:
     Ui::peopleTracker *ui;

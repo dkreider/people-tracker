@@ -6,9 +6,9 @@ peopleTracker::peopleTracker(QWidget *parent) :
     QMainWindow(parent), ui(new Ui::peopleTracker)
 {
     ui->setupUi(this);
+    people = new QStringListModel(this);
     // Load names
     loadNames("people.db");
-
 }
 
 
@@ -59,8 +59,16 @@ void peopleTracker::on_saveButton_clicked()
             // Add name to database
             else {
                     QString name = ui->nameEdit->text();
-                    query.prepare("INSERT INTO people (name) VALUES (:name)");
+                    QString email = ui->emailEdit->text();
+                    QString trackingNumber = ui->trackingEdit->text();
+                    QString address = ui->addressEdit->toPlainText();
+                    QString comments = ui->commentsEdit->toPlainText();
+                    query.prepare("INSERT INTO people (name, email, trackingNumber, address, comments) VALUES (:name, :email, :trackingNumber, :address, :comments)");
                     query.bindValue(":name", name);
+                    query.bindValue(":email", email);
+                    query.bindValue(":trackingNumber", trackingNumber);
+                    query.bindValue(":address", address);
+                    query.bindValue(":comments", comments);
                     if(query.exec()) {
                         // Query executed successfully. Reload database to reflect changes.
                         loadNames("people.db");
@@ -81,21 +89,33 @@ void peopleTracker::on_saveButton_clicked()
 // Removed selected person in listView.
 void peopleTracker::on_deleteButton_clicked()
 {
-    QSqlQuery query;
-    QString name = "Daniel"; // Need to change value from Daniel to the value selected in the listView.
-    query.prepare("DELETE FROM people WHERE name = (:name)");
-    query.bindValue(":name", name);
-    if(query.exec()) {
-        // Query executed successfully. Reload database to reflect changes.
-        loadNames("people.db");
-        return;
+    int response = QMessageBox::warning(this,
+                         tr("Warning"),
+                         tr("Are you sure you want to remove the selected person?"),
+                         QMessageBox::Yes, QMessageBox::No);
+
+    if(response == QMessageBox::Yes) {
+        QSqlQuery query;
+        QString name = on_listView_clicked();
+        query.prepare("DELETE FROM people WHERE name = (:name)");
+        query.bindValue(":name", name);
+        if(query.exec()) {
+            // Query executed successfully. Reload database to reflect changes.
+            loadNames("people.db");
+            // Clear screen.
+            peopleTracker::on_clearButton_clicked();
+            return;
+        }
+        else {
+            QMessageBox::warning(this,
+                                 tr("Error"),
+                                 tr("An unknown error occurred while trying to remove person from database."),
+                                 QMessageBox::Ok);
+            qDebug() << query.lastError();
+        }
     }
     else {
-        QMessageBox::warning(this,
-                             tr("Error"),
-                             tr("An unknown error occurred while trying to remove person from database."),
-                             QMessageBox::Ok);
-        qDebug() << query.lastError();
+        return;
     }
 }
 
@@ -103,7 +123,6 @@ void peopleTracker::on_deleteButton_clicked()
 // Load names from DataBase.
 void peopleTracker::loadNames(QString path_to_database)
 {
-    people = new QStringListModel(this);
     QStringList names;
     QSqlDatabase database;
     database = QSqlDatabase::addDatabase("QSQLITE");
@@ -119,8 +138,8 @@ void peopleTracker::loadNames(QString path_to_database)
     }
     else
     {
-        // Load data from database.
-        QSqlQuery query("SELECT * FROM people");
+        // Load name column from people table.
+        QSqlQuery query("SELECT name FROM people");
         int idName = query.record().indexOf("name");
         while (query.next())
         {
@@ -132,6 +151,7 @@ void peopleTracker::loadNames(QString path_to_database)
         ui->listView->setModel(people);
     }
 }
+
 
 // Event to close the application via File -> Close.
 void peopleTracker::on_actionExit_triggered()
@@ -149,3 +169,16 @@ void peopleTracker::on_actionAbout_triggered()
             "that endevours to give users an easy way "
             "to track customer data."));
 }
+
+// Stolen example from http://stackoverflow.com/questions/18093156/how-do-i-get-the-items-selected-from-a-qlistview
+// Used to return selected person from listView.
+QString peopleTracker::on_listView_clicked()
+{
+    QModelIndexList list = ui->listView->selectionModel()->selectedIndexes();
+    QStringList names;
+    foreach (const QModelIndex &index, list) {
+       names.append(index.data(Qt::DisplayRole).toString());
+    }
+    return names.join("");
+}
+
