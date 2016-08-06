@@ -26,12 +26,6 @@ void peopleTracker::on_clearButton_clicked()
     ui->trackingEdit->clear();
     ui->commentsEdit->clear();
     ui->addressEdit->clear();
-    ui->maleRadio->setAutoExclusive(false);
-    ui->maleRadio->setChecked(false);
-    ui->maleRadio->setAutoExclusive(true);
-    ui->femaleRadio->setAutoExclusive(false);
-    ui->femaleRadio->setChecked(false);
-    ui->femaleRadio->setAutoExclusive(true);
 }
 
 void peopleTracker::on_saveButton_clicked()

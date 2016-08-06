@@ -13,7 +13,6 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
@@ -22,7 +21,6 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QRadioButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
@@ -47,17 +45,14 @@ public:
     QLineEdit *emailEdit;
     QLineEdit *trackingEdit;
     QLabel *emailLabel;
-    QLabel *trackingLabel;
     QTextEdit *commentsEdit;
     QLabel *commentsLabel;
     QPushButton *saveButton;
     QPushButton *clearButton;
     QPushButton *deleteButton;
-    QGroupBox *groupBox;
-    QRadioButton *maleRadio;
-    QRadioButton *femaleRadio;
     QTextEdit *addressEdit;
     QLabel *label;
+    QLabel *trackingLabel;
     QMenuBar *menuBar;
     QMenu *menuType;
     QMenu *menuEdit;
@@ -69,7 +64,7 @@ public:
     {
         if (peopleTracker->objectName().isEmpty())
             peopleTracker->setObjectName(QStringLiteral("peopleTracker"));
-        peopleTracker->resize(751, 607);
+        peopleTracker->resize(751, 633);
         QIcon icon;
         icon.addFile(QStringLiteral("footprint.png"), QSize(), QIcon::Normal, QIcon::Off);
         peopleTracker->setWindowIcon(icon);
@@ -91,28 +86,25 @@ public:
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         listView = new QListView(centralWidget);
         listView->setObjectName(QStringLiteral("listView"));
-        listView->setGeometry(QRect(10, 0, 221, 531));
+        listView->setGeometry(QRect(10, 10, 221, 521));
         nameEdit = new QLineEdit(centralWidget);
         nameEdit->setObjectName(QStringLiteral("nameEdit"));
-        nameEdit->setGeometry(QRect(330, 30, 391, 31));
+        nameEdit->setGeometry(QRect(328, 10, 391, 27));
         nameLabel = new QLabel(centralWidget);
         nameLabel->setObjectName(QStringLiteral("nameLabel"));
-        nameLabel->setGeometry(QRect(250, 30, 67, 17));
+        nameLabel->setGeometry(QRect(250, 10, 72, 27));
         emailEdit = new QLineEdit(centralWidget);
         emailEdit->setObjectName(QStringLiteral("emailEdit"));
-        emailEdit->setGeometry(QRect(350, 80, 371, 31));
+        emailEdit->setGeometry(QRect(340, 60, 377, 27));
         trackingEdit = new QLineEdit(centralWidget);
         trackingEdit->setObjectName(QStringLiteral("trackingEdit"));
-        trackingEdit->setGeometry(QRect(370, 130, 351, 31));
+        trackingEdit->setGeometry(QRect(360, 110, 356, 27));
         emailLabel = new QLabel(centralWidget);
         emailLabel->setObjectName(QStringLiteral("emailLabel"));
-        emailLabel->setGeometry(QRect(240, 80, 101, 17));
-        trackingLabel = new QLabel(centralWidget);
-        trackingLabel->setObjectName(QStringLiteral("trackingLabel"));
-        trackingLabel->setGeometry(QRect(240, 130, 121, 17));
+        emailLabel->setGeometry(QRect(238, 60, 96, 27));
         commentsEdit = new QTextEdit(centralWidget);
         commentsEdit->setObjectName(QStringLiteral("commentsEdit"));
-        commentsEdit->setGeometry(QRect(270, 350, 471, 131));
+        commentsEdit->setGeometry(QRect(270, 350, 451, 131));
         commentsLabel = new QLabel(centralWidget);
         commentsLabel->setObjectName(QStringLiteral("commentsLabel"));
         commentsLabel->setGeometry(QRect(270, 320, 81, 17));
@@ -125,22 +117,37 @@ public:
         deleteButton = new QPushButton(centralWidget);
         deleteButton->setObjectName(QStringLiteral("deleteButton"));
         deleteButton->setGeometry(QRect(520, 500, 99, 27));
-        groupBox = new QGroupBox(centralWidget);
-        groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setGeometry(QRect(240, 210, 120, 80));
-        maleRadio = new QRadioButton(groupBox);
-        maleRadio->setObjectName(QStringLiteral("maleRadio"));
-        maleRadio->setGeometry(QRect(10, 20, 81, 22));
-        femaleRadio = new QRadioButton(groupBox);
-        femaleRadio->setObjectName(QStringLiteral("femaleRadio"));
-        femaleRadio->setGeometry(QRect(10, 50, 81, 22));
         addressEdit = new QTextEdit(centralWidget);
         addressEdit->setObjectName(QStringLiteral("addressEdit"));
-        addressEdit->setGeometry(QRect(370, 200, 351, 101));
+        addressEdit->setGeometry(QRect(270, 200, 451, 101));
         label = new QLabel(centralWidget);
         label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(370, 180, 67, 17));
+        label->setGeometry(QRect(270, 170, 67, 17));
+        trackingLabel = new QLabel(centralWidget);
+        trackingLabel->setObjectName(QStringLiteral("trackingLabel"));
+        trackingLabel->setGeometry(QRect(237, 110, 117, 27));
         peopleTracker->setCentralWidget(centralWidget);
+        listView->raise();
+        nameEdit->raise();
+        nameLabel->raise();
+        emailEdit->raise();
+        trackingEdit->raise();
+        emailLabel->raise();
+        trackingLabel->raise();
+        commentsEdit->raise();
+        commentsLabel->raise();
+        saveButton->raise();
+        clearButton->raise();
+        deleteButton->raise();
+        addressEdit->raise();
+        label->raise();
+        nameEdit->raise();
+        nameLabel->raise();
+        emailEdit->raise();
+        emailLabel->raise();
+        trackingLabel->raise();
+        trackingEdit->raise();
+        trackingLabel->raise();
         menuBar = new QMenuBar(peopleTracker);
         menuBar->setObjectName(QStringLiteral("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 751, 25));
@@ -188,12 +195,11 @@ public:
         actionDelete->setText(QApplication::translate("peopleTracker", "Delete", 0));
         actionAbout->setText(QApplication::translate("peopleTracker", "About", 0));
         actionExit->setText(QApplication::translate("peopleTracker", "Exit", 0));
-        nameLabel->setText(QApplication::translate("peopleTracker", "Full Name:", 0));
+        nameLabel->setText(QApplication::translate("peopleTracker", "Full Name", 0));
         emailLabel->setText(QApplication::translate("peopleTracker", "Email Address", 0));
-        trackingLabel->setText(QApplication::translate("peopleTracker", "Tracking Number", 0));
         commentsLabel->setText(QApplication::translate("peopleTracker", "Comments:", 0));
 #ifndef QT_NO_TOOLTIP
-        saveButton->setToolTip(QApplication::translate("peopleTracker", "Save customer...", 0));
+        saveButton->setToolTip(QApplication::translate("peopleTracker", "Save selected person", 0));
 #endif // QT_NO_TOOLTIP
         saveButton->setText(QApplication::translate("peopleTracker", "Save", 0));
         saveButton->setShortcut(QApplication::translate("peopleTracker", "Ctrl+S", 0));
@@ -202,11 +208,12 @@ public:
 #endif // QT_NO_TOOLTIP
         clearButton->setText(QApplication::translate("peopleTracker", "Clear", 0));
         clearButton->setShortcut(QApplication::translate("peopleTracker", "Ctrl+N", 0));
+#ifndef QT_NO_TOOLTIP
+        deleteButton->setToolTip(QApplication::translate("peopleTracker", "Delete selected person", 0));
+#endif // QT_NO_TOOLTIP
         deleteButton->setText(QApplication::translate("peopleTracker", "Delete", 0));
-        groupBox->setTitle(QApplication::translate("peopleTracker", "Male \\ Female", 0));
-        maleRadio->setText(QApplication::translate("peopleTracker", "Male", 0));
-        femaleRadio->setText(QApplication::translate("peopleTracker", "Female", 0));
         label->setText(QApplication::translate("peopleTracker", "Address:", 0));
+        trackingLabel->setText(QApplication::translate("peopleTracker", "Tracking Number", 0));
         menuType->setTitle(QApplication::translate("peopleTracker", "File", 0));
         menuEdit->setTitle(QApplication::translate("peopleTracker", "Edit", 0));
         menuHelp->setTitle(QApplication::translate("peopleTracker", "Help", 0));
