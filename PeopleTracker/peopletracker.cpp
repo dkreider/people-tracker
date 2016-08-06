@@ -36,6 +36,7 @@ void peopleTracker::on_clearButton_clicked()
 
 void peopleTracker::on_saveButton_clicked()
 {
+    // Make sure we have at least a name.
     if(ui->nameEdit->text() == NULL) {
         QMessageBox warning;
         warning.setText("I need at least a name before I can save the person.");
@@ -44,17 +45,48 @@ void peopleTracker::on_saveButton_clicked()
     }
     else {
         QSqlQuery query;
-        QString name;
+        QString name = ui->nameEdit->text();
         query.prepare("SELECT name FROM people WHERE name = (:name)");
         query.bindValue(":name", name);
         // Check to make sure name does not exist.
         if(query.exec()) {
             if(query.next()) {
-                QMessageBox::warning(this,
+                int response = QMessageBox::warning(this,
                                      tr("Notice"),
-                                     tr("The name you tried adding already exists within the database."),
-                                     QMessageBox::Ok);
-                return;
+                                     tr("The name you want to save already exists in the database. Press OK to update person or Cancel to cancel the update."),
+                                     QMessageBox::Ok,
+                                     QMessageBox::Cancel);
+                if(response == QMessageBox::Ok) {
+                    // update records.
+                    QString name = ui->nameEdit->text();
+                    QString email = ui->emailEdit->text();
+                    QString trackingNumber = ui->trackingEdit->text();
+                    QString address = ui->addressEdit->toPlainText();
+                    QString comments = ui->commentsEdit->toPlainText();
+                    QString selectedName = on_listView_clicked();
+                    QSqlQuery update;
+                    update.prepare("UPDATE people SET name = (:name), email = (:email), trackingNumber = (:trackingNumber), address = (:address), comments = (:comments) WHERE name = (:selectedName)");
+                    update.bindValue(":name", name);
+                    update.bindValue(":email", email);
+                    update.bindValue(":trackingNumber", trackingNumber);
+                    update.bindValue(":address", address);
+                    update.bindValue(":comments", comments);
+                    update.bindValue(":selectedName", selectedName);
+                    if(update.exec()) {
+                        loadNames("people.db");
+                        return;
+                    }
+                    else {
+                        QMessageBox::warning(this,
+                                             tr("Error"),
+                                             tr("An unknown error occured while trying to update database."),
+                                             QMessageBox::Ok);
+                        return;
+                    }
+                }
+                else {
+                    return;
+                }
             }
             // Add name to database
             else {
@@ -89,33 +121,40 @@ void peopleTracker::on_saveButton_clicked()
 // Removed selected person in listView.
 void peopleTracker::on_deleteButton_clicked()
 {
-    int response = QMessageBox::warning(this,
-                         tr("Warning"),
-                         tr("Are you sure you want to remove the selected person?"),
-                         QMessageBox::Yes, QMessageBox::No);
+    // Make sure a person is selected.
+    if(ui->nameEdit->text() == NULL) {
+        return;
+    }
 
-    if(response == QMessageBox::Yes) {
-        QSqlQuery query;
-        QString name = on_listView_clicked();
-        query.prepare("DELETE FROM people WHERE name = (:name)");
-        query.bindValue(":name", name);
-        if(query.exec()) {
-            // Query executed successfully. Reload database to reflect changes.
-            loadNames("people.db");
-            // Clear screen.
-            peopleTracker::on_clearButton_clicked();
-            return;
+    else {
+        int response = QMessageBox::warning(this,
+                             tr("Warning"),
+                             tr("Are you sure you want to remove the selected person?"),
+                             QMessageBox::Yes, QMessageBox::No);
+
+        if(response == QMessageBox::Yes) {
+            QSqlQuery query;
+            QString name = on_listView_clicked();
+            query.prepare("DELETE FROM people WHERE name = (:name)");
+            query.bindValue(":name", name);
+            if(query.exec()) {
+                // Query executed successfully. Reload database to reflect changes.
+                loadNames("people.db");
+                // Clear screen.
+                peopleTracker::on_clearButton_clicked();
+                return;
+            }
+            else {
+                QMessageBox::warning(this,
+                                     tr("Error"),
+                                     tr("An unknown error occurred while trying to remove person from database."),
+                                     QMessageBox::Ok);
+                qDebug() << query.lastError();
+            }
         }
         else {
-            QMessageBox::warning(this,
-                                 tr("Error"),
-                                 tr("An unknown error occurred while trying to remove person from database."),
-                                 QMessageBox::Ok);
-            qDebug() << query.lastError();
+            return;
         }
-    }
-    else {
-        return;
     }
 }
 
@@ -134,6 +173,7 @@ void peopleTracker::loadNames(QString path_to_database)
         QMessageBox error;
         error.setText("Unable to open database.");
         error.exec();
+        return;
 
     }
     else
@@ -187,18 +227,21 @@ void peopleTracker::on_listView_clicked(const QModelIndex &index)
 
     }
     else {
-        QSqlQuery query;
-        query.prepare("SELECT name FROM people WHERE name = (:name)");
-        query.bindValue(":name", name);
-        if(query.exec()) {
+        QSqlQuery nameQuery;
+        QString email;
+        nameQuery.prepare("SELECT name AND email FROM people WHERE name = (:name)");
+        nameQuery.bindValue(":name", name);
+        nameQuery.bindValue(":email", email);
+        if(nameQuery.exec()) {
             ui->nameEdit->setText(name);
+            ui->emailEdit->setText(email);
         }
         else {
             QMessageBox::warning(this,
                             tr("Error"),
                             tr("Uknown error getting name from database."),
                             QMessageBox::Ok);
-            qDebug() << query.lastError();
+            qDebug() << nameQuery.lastError();
         }
     }
 }
