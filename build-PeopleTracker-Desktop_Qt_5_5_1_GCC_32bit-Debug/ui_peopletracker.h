@@ -36,6 +36,7 @@ public:
     QAction *actionDelete;
     QAction *actionAbout;
     QAction *actionExit;
+    QAction *actionBackup;
     QWidget *centralWidget;
     QListView *listView;
     QLineEdit *nameEdit;
@@ -76,6 +77,8 @@ public:
         actionAbout->setObjectName(QStringLiteral("actionAbout"));
         actionExit = new QAction(peopleTracker);
         actionExit->setObjectName(QStringLiteral("actionExit"));
+        actionBackup = new QAction(peopleTracker);
+        actionBackup->setObjectName(QStringLiteral("actionBackup"));
         centralWidget = new QWidget(peopleTracker);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         listView = new QListView(centralWidget);
@@ -178,6 +181,7 @@ public:
         actionDelete->setText(QApplication::translate("peopleTracker", "Delete", 0));
         actionAbout->setText(QApplication::translate("peopleTracker", "About", 0));
         actionExit->setText(QApplication::translate("peopleTracker", "Exit", 0));
+        actionBackup->setText(QApplication::translate("peopleTracker", "Backup", 0));
         nameLabel->setText(QApplication::translate("peopleTracker", "Full Name", 0));
         emailLabel->setText(QApplication::translate("peopleTracker", "Email Address", 0));
         commentsLabel->setText(QApplication::translate("peopleTracker", "Comments:", 0));

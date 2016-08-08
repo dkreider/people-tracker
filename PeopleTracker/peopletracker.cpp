@@ -32,9 +32,10 @@ void peopleTracker::on_saveButton_clicked()
 {
     // Make sure we have at least a name.
     if(ui->nameEdit->text() == NULL) {
-        QMessageBox warning;
-        warning.setText("I need at least a name before I can save the person.");
-        warning.exec();
+        QMessageBox::warning(this,
+                             tr("More info needed"),
+                             tr("I need at least a name before I can save the person."),
+                             QMessageBox::Ok);
         ui->nameEdit->setFocus();
     }
     else {
@@ -74,10 +75,9 @@ void peopleTracker::on_saveButton_clicked()
                         return;
                     }
                     else {
-                        QMessageBox::warning(this,
-                                             tr("Error"),
-                                             tr("An unknown error occured while trying to update database."),
-                                             QMessageBox::Ok);
+                        QMessageBox::critical(this,
+                                        tr("SQL error"),
+                                        update.lastError().text());
                         return;
                     }
                 }
@@ -106,11 +106,9 @@ void peopleTracker::on_saveButton_clicked()
                         return;
                     }
                     else {
-                        QMessageBox::warning(this,
-                                        tr("Error"),
-                                        tr("An unknown error occurred while trying to add person to database."),
-                                        QMessageBox::Ok);
-                        qDebug() << query.lastError();
+                        QMessageBox::critical(this,
+                                        tr("SQL error"),
+                                        query.lastError().text());
                     }
                 }
         }
@@ -144,11 +142,9 @@ void peopleTracker::on_deleteButton_clicked()
                 return;
             }
             else {
-                QMessageBox::warning(this,
-                                     tr("Error"),
-                                     tr("An unknown error occurred while trying to remove person from database."),
-                                     QMessageBox::Ok);
-                qDebug() << query.lastError();
+                QMessageBox::critical(this,
+                                tr("SQL error"),
+                                query.lastError().text());
             }
         }
         else {
@@ -169,9 +165,9 @@ void peopleTracker::loadNames(QString path_to_database)
 
     if (!database.open())
     {
-        QMessageBox error;
-        error.setText("Unable to open database.");
-        error.exec();
+        QMessageBox::critical(this,
+                        tr("SQL error"),
+                        database.lastError().text());
         return;
 
     }
@@ -226,33 +222,19 @@ void peopleTracker::on_listView_clicked(const QModelIndex &index)
 
     }
     else {
-        QSqlQuery nameQuery;
-        QString email;
-        QString address;
-        nameQuery.prepare("SELECT name FROM people WHERE name = (:name)");
-        nameQuery.bindValue(":name", name);
-        nameQuery.bindValue(":email", email);
-        nameQuery.bindValue("address", address);
-        if(nameQuery.exec()) {
-            qDebug() << "value of name is " << name;
-            qDebug() << "value of email is " << email;
-            ui->nameEdit->setText(name);
-        }
-        nameQuery.prepare("SELECT email FROM people WHERE name = (:name)");
-        nameQuery.bindValue(":name", name);
-        nameQuery.bindValue("email", email);
-        if(nameQuery.exec()) {
-            qDebug() << "value of email is " << email;
-
+        QSqlQuery query;
+        query.bindValue(":name", name);
+        query.prepare("SELECT name FROM people WHERE name = (:name)");
+        if(query.exec()) {
+             ui->nameEdit->setText(name);
         }
         else {
-            QMessageBox::warning(this,
-                            tr("Error"),
-                            tr("Uknown error getting name from database."),
-                            QMessageBox::Ok);
-            qDebug() << nameQuery.lastError();
+            QMessageBox::critical(this,
+                                  tr("SQL error"),
+                                  query.lastError().text());
+            return;
         }
-    }
+   }
 }
 
 
