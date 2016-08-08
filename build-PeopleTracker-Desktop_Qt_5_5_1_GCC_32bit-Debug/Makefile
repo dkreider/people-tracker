@@ -672,6 +672,17 @@ moc_peopletracker.cpp: /opt/Qt/5.5/gcc/include/QtWidgets/QMainWindow \
 		/opt/Qt/5.5/gcc/include/QtWidgets/qdialog.h \
 		/opt/Qt/5.5/gcc/include/QtCore/QFile \
 		/opt/Qt/5.5/gcc/include/QtCore/QTextStream \
+		/opt/Qt/5.5/gcc/include/QtSql/QSqlQuery \
+		/opt/Qt/5.5/gcc/include/QtSql/qsqlquery.h \
+		/opt/Qt/5.5/gcc/include/QtSql/qsql.h \
+		/opt/Qt/5.5/gcc/include/QtSql/qsqldatabase.h \
+		/opt/Qt/5.5/gcc/include/QtSql/QSqlDatabase \
+		/opt/Qt/5.5/gcc/include/QtSql/QSqlRecord \
+		/opt/Qt/5.5/gcc/include/QtSql/qsqlrecord.h \
+		/opt/Qt/5.5/gcc/include/QtSql/QSqlError \
+		/opt/Qt/5.5/gcc/include/QtSql/qsqlerror.h \
+		/opt/Qt/5.5/gcc/include/QtCore/QDebug \
+		/opt/Qt/5.5/gcc/include/QtCore/QModelIndex \
 		../people-tracker/PeopleTracker/peopletracker.h
 	/opt/Qt/5.5/gcc/bin/moc $(DEFINES) -I/opt/Qt/5.5/gcc/mkspecs/linux-g++-32 -I/home/daniel/QT/people-tracker/PeopleTracker -I/opt/Qt/5.5/gcc/include -I/opt/Qt/5.5/gcc/include/QtWidgets -I/opt/Qt/5.5/gcc/include/QtGui -I/opt/Qt/5.5/gcc/include/QtSql -I/opt/Qt/5.5/gcc/include/QtCore -I. ../people-tracker/PeopleTracker/peopletracker.h -o moc_peopletracker.cpp
 
@@ -826,6 +837,17 @@ main.o: ../people-tracker/PeopleTracker/main.cpp ../people-tracker/PeopleTracker
 		/opt/Qt/5.5/gcc/include/QtWidgets/qdialog.h \
 		/opt/Qt/5.5/gcc/include/QtCore/QFile \
 		/opt/Qt/5.5/gcc/include/QtCore/QTextStream \
+		/opt/Qt/5.5/gcc/include/QtSql/QSqlQuery \
+		/opt/Qt/5.5/gcc/include/QtSql/qsqlquery.h \
+		/opt/Qt/5.5/gcc/include/QtSql/qsql.h \
+		/opt/Qt/5.5/gcc/include/QtSql/qsqldatabase.h \
+		/opt/Qt/5.5/gcc/include/QtSql/QSqlDatabase \
+		/opt/Qt/5.5/gcc/include/QtSql/QSqlRecord \
+		/opt/Qt/5.5/gcc/include/QtSql/qsqlrecord.h \
+		/opt/Qt/5.5/gcc/include/QtSql/QSqlError \
+		/opt/Qt/5.5/gcc/include/QtSql/qsqlerror.h \
+		/opt/Qt/5.5/gcc/include/QtCore/QDebug \
+		/opt/Qt/5.5/gcc/include/QtCore/QModelIndex \
 		/opt/Qt/5.5/gcc/include/QtWidgets/QApplication \
 		/opt/Qt/5.5/gcc/include/QtWidgets/qapplication.h \
 		/opt/Qt/5.5/gcc/include/QtCore/qcoreapplication.h \
@@ -970,6 +992,17 @@ peopletracker.o: ../people-tracker/PeopleTracker/peopletracker.cpp ../people-tra
 		/opt/Qt/5.5/gcc/include/QtWidgets/qdialog.h \
 		/opt/Qt/5.5/gcc/include/QtCore/QFile \
 		/opt/Qt/5.5/gcc/include/QtCore/QTextStream \
+		/opt/Qt/5.5/gcc/include/QtSql/QSqlQuery \
+		/opt/Qt/5.5/gcc/include/QtSql/qsqlquery.h \
+		/opt/Qt/5.5/gcc/include/QtSql/qsql.h \
+		/opt/Qt/5.5/gcc/include/QtSql/qsqldatabase.h \
+		/opt/Qt/5.5/gcc/include/QtSql/QSqlDatabase \
+		/opt/Qt/5.5/gcc/include/QtSql/QSqlRecord \
+		/opt/Qt/5.5/gcc/include/QtSql/qsqlrecord.h \
+		/opt/Qt/5.5/gcc/include/QtSql/QSqlError \
+		/opt/Qt/5.5/gcc/include/QtSql/qsqlerror.h \
+		/opt/Qt/5.5/gcc/include/QtCore/QDebug \
+		/opt/Qt/5.5/gcc/include/QtCore/QModelIndex \
 		ui_peopletracker.h \
 		/opt/Qt/5.5/gcc/include/QtCore/QVariant \
 		/opt/Qt/5.5/gcc/include/QtWidgets/QAction \
@@ -984,8 +1017,6 @@ peopletracker.o: ../people-tracker/PeopleTracker/peopletracker.cpp ../people-tra
 		/opt/Qt/5.5/gcc/include/QtGui/qinputmethod.h \
 		/opt/Qt/5.5/gcc/include/QtWidgets/QButtonGroup \
 		/opt/Qt/5.5/gcc/include/QtWidgets/qbuttongroup.h \
-		/opt/Qt/5.5/gcc/include/QtWidgets/QGroupBox \
-		/opt/Qt/5.5/gcc/include/QtWidgets/qgroupbox.h \
 		/opt/Qt/5.5/gcc/include/QtWidgets/QHeaderView \
 		/opt/Qt/5.5/gcc/include/QtWidgets/qheaderview.h \
 		/opt/Qt/5.5/gcc/include/QtWidgets/QLabel \
@@ -1003,8 +1034,6 @@ peopletracker.o: ../people-tracker/PeopleTracker/peopletracker.cpp ../people-tra
 		/opt/Qt/5.5/gcc/include/QtWidgets/QPushButton \
 		/opt/Qt/5.5/gcc/include/QtWidgets/qpushbutton.h \
 		/opt/Qt/5.5/gcc/include/QtWidgets/qabstractbutton.h \
-		/opt/Qt/5.5/gcc/include/QtWidgets/QRadioButton \
-		/opt/Qt/5.5/gcc/include/QtWidgets/qradiobutton.h \
 		/opt/Qt/5.5/gcc/include/QtWidgets/QStatusBar \
 		/opt/Qt/5.5/gcc/include/QtWidgets/qstatusbar.h \
 		/opt/Qt/5.5/gcc/include/QtWidgets/QTextEdit \

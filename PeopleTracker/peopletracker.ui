@@ -201,12 +201,6 @@
     </property>
    </widget>
    <zorder>listView</zorder>
-   <zorder>nameEdit</zorder>
-   <zorder>nameLabel</zorder>
-   <zorder>emailEdit</zorder>
-   <zorder>trackingEdit</zorder>
-   <zorder>emailLabel</zorder>
-   <zorder>trackingLabel</zorder>
    <zorder>commentsEdit</zorder>
    <zorder>commentsLabel</zorder>
    <zorder>saveButton</zorder>
@@ -218,7 +212,6 @@
    <zorder>nameLabel</zorder>
    <zorder>emailEdit</zorder>
    <zorder>emailLabel</zorder>
-   <zorder>trackingLabel</zorder>
    <zorder>trackingEdit</zorder>
    <zorder>trackingLabel</zorder>
   </widget>
@@ -236,8 +229,6 @@
      <string>File</string>
     </property>
     <addaction name="separator"/>
-    <addaction name="actionOpen"/>
-    <addaction name="actionNew"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -267,16 +258,6 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="actionOpen">
-   <property name="text">
-    <string>New</string>
-   </property>
-  </action>
-  <action name="actionNew">
-   <property name="text">
-    <string>Open</string>
-   </property>
-  </action>
   <action name="actionSave">
    <property name="text">
     <string>Save</string>
@@ -284,7 +265,7 @@
   </action>
   <action name="actionClose">
    <property name="text">
-    <string>Close</string>
+    <string>Clear</string>
    </property>
   </action>
   <action name="actionDelete">

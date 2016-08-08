@@ -67,7 +67,10 @@ void peopleTracker::on_saveButton_clicked()
                     update.bindValue(":comments", comments);
                     update.bindValue(":selectedName", selectedName);
                     if(update.exec()) {
+                        // reload database.
                         loadNames("people.db");
+                        // clear screen.
+                        on_clearButton_clicked();
                         return;
                     }
                     else {
@@ -98,6 +101,8 @@ void peopleTracker::on_saveButton_clicked()
                     if(query.exec()) {
                         // Query executed successfully. Reload database to reflect changes.
                         loadNames("people.db");
+                        // clear screen.
+                        on_clearButton_clicked();
                         return;
                     }
                     else {
@@ -223,12 +228,22 @@ void peopleTracker::on_listView_clicked(const QModelIndex &index)
     else {
         QSqlQuery nameQuery;
         QString email;
-        nameQuery.prepare("SELECT name AND email FROM people WHERE name = (:name)");
+        QString address;
+        nameQuery.prepare("SELECT name FROM people WHERE name = (:name)");
         nameQuery.bindValue(":name", name);
         nameQuery.bindValue(":email", email);
+        nameQuery.bindValue("address", address);
         if(nameQuery.exec()) {
+            qDebug() << "value of name is " << name;
+            qDebug() << "value of email is " << email;
             ui->nameEdit->setText(name);
-            ui->emailEdit->setText(email);
+        }
+        nameQuery.prepare("SELECT email FROM people WHERE name = (:name)");
+        nameQuery.bindValue(":name", name);
+        nameQuery.bindValue("email", email);
+        if(nameQuery.exec()) {
+            qDebug() << "value of email is " << email;
+
         }
         else {
             QMessageBox::warning(this,
@@ -256,4 +271,19 @@ void peopleTracker::on_actionAbout_triggered()
             "<p>People Tracker is a simple application "
             "that endevours to give users an easy way "
             "to track customer data."));
+}
+
+void peopleTracker::on_actionSave_triggered()
+{
+    on_saveButton_clicked();
+}
+
+void peopleTracker::on_actionClose_triggered()
+{
+    on_clearButton_clicked();
+}
+
+void peopleTracker::on_actionDelete_triggered()
+{
+    on_deleteButton_clicked();
 }

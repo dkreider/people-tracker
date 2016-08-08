@@ -31,8 +31,6 @@ QT_BEGIN_NAMESPACE
 class Ui_peopleTracker
 {
 public:
-    QAction *actionOpen;
-    QAction *actionNew;
     QAction *actionSave;
     QAction *actionClose;
     QAction *actionDelete;
@@ -68,10 +66,6 @@ public:
         QIcon icon;
         icon.addFile(QStringLiteral("footprint.png"), QSize(), QIcon::Normal, QIcon::Off);
         peopleTracker->setWindowIcon(icon);
-        actionOpen = new QAction(peopleTracker);
-        actionOpen->setObjectName(QStringLiteral("actionOpen"));
-        actionNew = new QAction(peopleTracker);
-        actionNew->setObjectName(QStringLiteral("actionNew"));
         actionSave = new QAction(peopleTracker);
         actionSave->setObjectName(QStringLiteral("actionSave"));
         actionClose = new QAction(peopleTracker);
@@ -128,12 +122,6 @@ public:
         trackingLabel->setGeometry(QRect(237, 110, 117, 27));
         peopleTracker->setCentralWidget(centralWidget);
         listView->raise();
-        nameEdit->raise();
-        nameLabel->raise();
-        emailEdit->raise();
-        trackingEdit->raise();
-        emailLabel->raise();
-        trackingLabel->raise();
         commentsEdit->raise();
         commentsLabel->raise();
         saveButton->raise();
@@ -145,7 +133,6 @@ public:
         nameLabel->raise();
         emailEdit->raise();
         emailLabel->raise();
-        trackingLabel->raise();
         trackingEdit->raise();
         trackingLabel->raise();
         menuBar = new QMenuBar(peopleTracker);
@@ -169,8 +156,6 @@ public:
         menuBar->addAction(menuEdit->menuAction());
         menuBar->addAction(menuHelp->menuAction());
         menuType->addSeparator();
-        menuType->addAction(actionOpen);
-        menuType->addAction(actionNew);
         menuType->addAction(actionExit);
         menuEdit->addAction(actionSave);
         menuEdit->addAction(actionClose);
@@ -188,10 +173,8 @@ public:
 #ifndef QT_NO_TOOLTIP
         peopleTracker->setToolTip(QString());
 #endif // QT_NO_TOOLTIP
-        actionOpen->setText(QApplication::translate("peopleTracker", "New", 0));
-        actionNew->setText(QApplication::translate("peopleTracker", "Open", 0));
         actionSave->setText(QApplication::translate("peopleTracker", "Save", 0));
-        actionClose->setText(QApplication::translate("peopleTracker", "Close", 0));
+        actionClose->setText(QApplication::translate("peopleTracker", "Clear", 0));
         actionDelete->setText(QApplication::translate("peopleTracker", "Delete", 0));
         actionAbout->setText(QApplication::translate("peopleTracker", "About", 0));
         actionExit->setText(QApplication::translate("peopleTracker", "Exit", 0));

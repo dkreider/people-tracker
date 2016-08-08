@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_peopleTracker_t {
-    QByteArrayData data[10];
-    char stringdata0[193];
+    QByteArrayData data[13];
+    char stringdata0[268];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -38,7 +38,10 @@ QT_MOC_LITERAL(5, 84, 23), // "on_actionExit_triggered"
 QT_MOC_LITERAL(6, 108, 24), // "on_actionAbout_triggered"
 QT_MOC_LITERAL(7, 133, 33), // "on_actionLoad_customers_trigg..."
 QT_MOC_LITERAL(8, 167, 19), // "on_listView_clicked"
-QT_MOC_LITERAL(9, 187, 5) // "index"
+QT_MOC_LITERAL(9, 187, 5), // "index"
+QT_MOC_LITERAL(10, 193, 23), // "on_actionSave_triggered"
+QT_MOC_LITERAL(11, 217, 24), // "on_actionClose_triggered"
+QT_MOC_LITERAL(12, 242, 25) // "on_actionDelete_triggered"
 
     },
     "peopleTracker\0on_clearButton_clicked\0"
@@ -46,7 +49,10 @@ QT_MOC_LITERAL(9, 187, 5) // "index"
     "on_actionExit_triggered\0"
     "on_actionAbout_triggered\0"
     "on_actionLoad_customers_triggered\0"
-    "on_listView_clicked\0index"
+    "on_listView_clicked\0index\0"
+    "on_actionSave_triggered\0"
+    "on_actionClose_triggered\0"
+    "on_actionDelete_triggered"
 };
 #undef QT_MOC_LITERAL
 
@@ -56,7 +62,7 @@ static const uint qt_meta_data_peopleTracker[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -64,14 +70,17 @@ static const uint qt_meta_data_peopleTracker[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   54,    2, 0x08 /* Private */,
-       3,    0,   55,    2, 0x08 /* Private */,
-       4,    0,   56,    2, 0x08 /* Private */,
-       5,    0,   57,    2, 0x08 /* Private */,
-       6,    0,   58,    2, 0x08 /* Private */,
-       7,    0,   59,    2, 0x08 /* Private */,
-       8,    0,   60,    2, 0x08 /* Private */,
-       8,    1,   61,    2, 0x08 /* Private */,
+       1,    0,   69,    2, 0x08 /* Private */,
+       3,    0,   70,    2, 0x08 /* Private */,
+       4,    0,   71,    2, 0x08 /* Private */,
+       5,    0,   72,    2, 0x08 /* Private */,
+       6,    0,   73,    2, 0x08 /* Private */,
+       7,    0,   74,    2, 0x08 /* Private */,
+       8,    0,   75,    2, 0x08 /* Private */,
+       8,    1,   76,    2, 0x08 /* Private */,
+      10,    0,   79,    2, 0x08 /* Private */,
+      11,    0,   80,    2, 0x08 /* Private */,
+      12,    0,   81,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -82,6 +91,9 @@ static const uint qt_meta_data_peopleTracker[] = {
     QMetaType::Void,
     QMetaType::QString,
     QMetaType::Void, QMetaType::QModelIndex,    9,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -101,6 +113,9 @@ void peopleTracker::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 6: { QString _r = _t->on_listView_clicked();
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = _r; }  break;
         case 7: _t->on_listView_clicked((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
+        case 8: _t->on_actionSave_triggered(); break;
+        case 9: _t->on_actionClose_triggered(); break;
+        case 10: _t->on_actionDelete_triggered(); break;
         default: ;
         }
     }
@@ -131,13 +146,13 @@ int peopleTracker::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 8)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 8;
+        _id -= 11;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 8)
+        if (_id < 11)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 8;
+        _id -= 11;
     }
     return _id;
 }

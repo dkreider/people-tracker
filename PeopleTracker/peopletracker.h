@@ -53,6 +53,12 @@ private slots:
 
     void on_listView_clicked(const QModelIndex &index);
 
+    void on_actionSave_triggered();
+
+    void on_actionClose_triggered();
+
+    void on_actionDelete_triggered();
+
 private:
     Ui::peopleTracker *ui;
     QStringListModel *people;
