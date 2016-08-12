@@ -18,6 +18,7 @@
 #include <QSqlError>
 #include <QDebug>
 #include <QModelIndex>
+#include <QSqlTableModel>
 
 namespace Ui {
 class peopleTracker;

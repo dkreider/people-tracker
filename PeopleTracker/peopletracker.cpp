@@ -37,80 +37,100 @@ void peopleTracker::on_saveButton_clicked()
                              tr("I need at least a name before I can save the person."),
                              QMessageBox::Ok);
         ui->nameEdit->setFocus();
+        return;
     }
     else {
-        QSqlQuery query;
-        QString name = ui->nameEdit->text();
-        query.prepare("SELECT name FROM people WHERE name = (:name)");
-        query.bindValue(":name", name);
-        // Check to make sure name does not exist.
-        if(query.exec()) {
-            if(query.next()) {
-                int response = QMessageBox::warning(this,
-                                     tr("Notice"),
-                                     tr("The name you want to save already exists in the database. Press OK to update person or Cancel to cancel the update."),
-                                     QMessageBox::Ok,
-                                     QMessageBox::Cancel);
-                if(response == QMessageBox::Ok) {
-                    // update records.
-                    QString name = ui->nameEdit->text();
-                    QString email = ui->emailEdit->text();
-                    QString trackingNumber = ui->trackingEdit->text();
-                    QString address = ui->addressEdit->toPlainText();
-                    QString comments = ui->commentsEdit->toPlainText();
-                    QString selectedName = on_listView_clicked();
-                    QSqlQuery update;
-                    update.prepare("UPDATE people SET name = (:name), email = (:email), trackingNumber = (:trackingNumber), address = (:address), comments = (:comments) WHERE name = (:selectedName)");
-                    update.bindValue(":name", name);
-                    update.bindValue(":email", email);
-                    update.bindValue(":trackingNumber", trackingNumber);
-                    update.bindValue(":address", address);
-                    update.bindValue(":comments", comments);
-                    update.bindValue(":selectedName", selectedName);
-                    if(update.exec()) {
-                        // reload database.
-                        loadNames("people.db");
-                        // clear screen.
-                        on_clearButton_clicked();
-                        return;
+        // open database.
+        QSqlDatabase database;
+        database = QSqlDatabase::addDatabase("QSQLITE");
+        database.setDatabaseName("people.db");
+
+
+        if (!database.open())
+        {
+            QMessageBox::critical(this,
+                            tr("SQL open error"),
+                            database.lastError().text());
+            database.close();
+            return;
+
+        }
+
+        else {
+            QSqlQuery query;
+            QString name = ui->nameEdit->text();
+            query.prepare("SELECT name FROM people WHERE name = (:name)");
+            query.bindValue(":name", name);
+            // Check to make sure name does not exist.
+            if(query.exec()) {
+                if(query.next()) {
+                    int response = QMessageBox::warning(this,
+                                         tr("Notice"),
+                                         tr("The name you want to save already exists in the database. Press OK to update person or Cancel to cancel the update."),
+                                         QMessageBox::Ok,
+                                         QMessageBox::Cancel);
+                    if(response == QMessageBox::Ok) {
+                        // update records.
+                        QString name = ui->nameEdit->text();
+                        QString email = ui->emailEdit->text();
+                        QString trackingNumber = ui->trackingEdit->text();
+                        QString address = ui->addressEdit->toPlainText();
+                        QString comments = ui->commentsEdit->toPlainText();
+                        QString selectedName = on_listView_clicked();
+                        QSqlQuery update;
+                        update.prepare("UPDATE people SET name = (:name), email = (:email), trackingNumber = (:trackingNumber), address = (:address), comments = (:comments) WHERE name = (:selectedName)");
+                        update.bindValue(":name", name);
+                        update.bindValue(":email", email);
+                        update.bindValue(":trackingNumber", trackingNumber);
+                        update.bindValue(":address", address);
+                        update.bindValue(":comments", comments);
+                        update.bindValue(":selectedName", selectedName);
+                        if(update.exec()) {
+                            // reload database.
+                            loadNames("people.db");
+                            // clear screen.
+                            on_clearButton_clicked();
+                            return;
+                        }
+                        else {
+                            QMessageBox::critical(this,
+                                            tr("SQL Update error"),
+                                            update.lastError().text());
+                            return;
+                        }
                     }
                     else {
-                        QMessageBox::critical(this,
-                                        tr("SQL error"),
-                                        update.lastError().text());
                         return;
                     }
                 }
+                // Add name to database
                 else {
-                    return;
-                }
+                        QString name = ui->nameEdit->text();
+                        QString email = ui->emailEdit->text();
+                        QString trackingNumber = ui->trackingEdit->text();
+                        QString address = ui->addressEdit->toPlainText();
+                        QString comments = ui->commentsEdit->toPlainText();
+                        QSqlQuery add;
+                        add.prepare("INSERT INTO people (name, email, trackingNumber, address, comments) VALUES (:name, :email, :trackingNumber, :address, :comments)");
+                        add.bindValue(":name", name);
+                        add.bindValue(":email", email);
+                        add.bindValue(":trackingNumber", trackingNumber);
+                        add.bindValue(":address", address);
+                        add.bindValue(":comments", comments);
+                        if(add.exec()) {
+                            // Query executed successfully. Reload database to reflect changes.
+                            loadNames("people.db");
+                            // clear screen.
+                            on_clearButton_clicked();
+                            return;
+                        }
+                        else {
+                            QMessageBox::critical(this,
+                                            tr("SQL Insert error"),
+                                            add.lastError().text());
+                        }
+                 }
             }
-            // Add name to database
-            else {
-                    QString name = ui->nameEdit->text();
-                    QString email = ui->emailEdit->text();
-                    QString trackingNumber = ui->trackingEdit->text();
-                    QString address = ui->addressEdit->toPlainText();
-                    QString comments = ui->commentsEdit->toPlainText();
-                    query.prepare("INSERT INTO people (name, email, trackingNumber, address, comments) VALUES (:name, :email, :trackingNumber, :address, :comments)");
-                    query.bindValue(":name", name);
-                    query.bindValue(":email", email);
-                    query.bindValue(":trackingNumber", trackingNumber);
-                    query.bindValue(":address", address);
-                    query.bindValue(":comments", comments);
-                    if(query.exec()) {
-                        // Query executed successfully. Reload database to reflect changes.
-                        loadNames("people.db");
-                        // clear screen.
-                        on_clearButton_clicked();
-                        return;
-                    }
-                    else {
-                        QMessageBox::critical(this,
-                                        tr("SQL error"),
-                                        query.lastError().text());
-                    }
-                }
         }
     }
 }
@@ -124,31 +144,48 @@ void peopleTracker::on_deleteButton_clicked()
     }
 
     else {
-        int response = QMessageBox::warning(this,
-                             tr("Warning"),
-                             tr("Are you sure you want to remove the selected person?"),
-                             QMessageBox::Yes, QMessageBox::No);
+        QSqlDatabase database;
+        database = QSqlDatabase::addDatabase("QSQLITE");
+        database.setDatabaseName("people.db");
 
-        if(response == QMessageBox::Yes) {
-            QSqlQuery query;
-            QString name = on_listView_clicked();
-            query.prepare("DELETE FROM people WHERE name = (:name)");
-            query.bindValue(":name", name);
-            if(query.exec()) {
-                // Query executed successfully. Reload database to reflect changes.
-                loadNames("people.db");
-                // Clear screen.
-                peopleTracker::on_clearButton_clicked();
-                return;
+
+        if (!database.open())
+        {
+            QMessageBox::critical(this,
+                            tr("SQL open error"),
+                            database.lastError().text());
+            database.close();
+            return;
+
+        }
+
+        else {
+            int response = QMessageBox::warning(this,
+                                 tr("Warning"),
+                                 tr("Are you sure you want to remove the selected person?"),
+                                 QMessageBox::Yes, QMessageBox::No);
+
+            if(response == QMessageBox::Yes) {
+                QSqlQuery query;
+                QString name = on_listView_clicked();
+                query.prepare("DELETE FROM people WHERE name = (:name)");
+                query.bindValue(":name", name);
+                if(query.exec()) {
+                    // Query executed successfully. Reload database to reflect changes.
+                    loadNames("people.db");
+                    // Clear screen.
+                    peopleTracker::on_clearButton_clicked();
+                    return;
+                }
+                else {
+                    QMessageBox::critical(this,
+                                    tr("SQL Delete error"),
+                                    query.lastError().text());
+                }
             }
             else {
-                QMessageBox::critical(this,
-                                tr("SQL error"),
-                                query.lastError().text());
+                return;
             }
-        }
-        else {
-            return;
         }
     }
 }
@@ -166,8 +203,9 @@ void peopleTracker::loadNames(QString path_to_database)
     if (!database.open())
     {
         QMessageBox::critical(this,
-                        tr("SQL error"),
+                        tr("SQL open error"),
                         database.lastError().text());
+        database.close();
         return;
 
     }
@@ -185,6 +223,7 @@ void peopleTracker::loadNames(QString path_to_database)
         people->setStringList(names);
         ui->listView->setModel(people);
     }
+    database.close();
 }
 
 // Stolen example from http://stackoverflow.com/questions/18093156/how-do-i-get-the-items-selected-from-a-qlistview
@@ -210,30 +249,44 @@ void peopleTracker::on_listView_clicked(const QModelIndex &index)
     }
 
     QString name = names.join("");
+    ui->nameEdit->setText(name);
     QSqlDatabase database;
     database = QSqlDatabase::addDatabase("QSQLITE");
     database.setDatabaseName("people.db");
 
     if (!database.open())
     {
-        QMessageBox error;
-        error.setText("Unable to open database.");
-        error.exec();
+        QMessageBox::critical(this,
+                              tr("Unable to open database."),
+                              database.lastError().text());
+        database.close();
 
     }
     else {
         QSqlQuery query;
-        query.bindValue(":name", name);
-        query.prepare("SELECT name FROM people WHERE name = (:name)");
-        if(query.exec()) {
-             ui->nameEdit->setText(name);
+        query.exec("SELECT name, email, trackingNumber, address, comments FROM people");
+        //int idName = query.record().indexOf("email");
+        while (query.next())
+        {
+            QString returnedName = query.value(0).toString();
+            QString returnedEmail = query.value(1).toString();
+            QString returnedTrackingNumber = query.value(2).toString();
+            QString returnedAddress = query.value(3).toString();
+            QString returnedComment = query.value(4).toString();
+            int x = QString::compare(name, returnedName);
+            if(x == 0) {
+                qDebug() << "value of selected person's email is " << returnedEmail;
+                ui->emailEdit->setText(returnedEmail);
+                ui->trackingEdit->setText(returnedTrackingNumber);
+                ui->addressEdit->setText(returnedAddress);
+                ui->commentsEdit->setText(returnedComment);
+            }
+            else {
+                qDebug() << "x did not return 0";
+            }
+
         }
-        else {
-            QMessageBox::critical(this,
-                                  tr("SQL error"),
-                                  query.lastError().text());
-            return;
-        }
+        database.close();
    }
 }
 
