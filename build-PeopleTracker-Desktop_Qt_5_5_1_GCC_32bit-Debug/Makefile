@@ -683,6 +683,9 @@ moc_peopletracker.cpp: /opt/Qt/5.5/gcc/include/QtWidgets/QMainWindow \
 		/opt/Qt/5.5/gcc/include/QtSql/qsqlerror.h \
 		/opt/Qt/5.5/gcc/include/QtCore/QDebug \
 		/opt/Qt/5.5/gcc/include/QtCore/QModelIndex \
+		/opt/Qt/5.5/gcc/include/QtSql/QSqlTableModel \
+		/opt/Qt/5.5/gcc/include/QtSql/qsqltablemodel.h \
+		/opt/Qt/5.5/gcc/include/QtSql/qsqlquerymodel.h \
 		../PeopleTracker/peopletracker.h
 	/opt/Qt/5.5/gcc/bin/moc $(DEFINES) -I/opt/Qt/5.5/gcc/mkspecs/linux-g++-32 -I/home/daniel/QT/people-tracker/PeopleTracker -I/opt/Qt/5.5/gcc/include -I/opt/Qt/5.5/gcc/include/QtWidgets -I/opt/Qt/5.5/gcc/include/QtGui -I/opt/Qt/5.5/gcc/include/QtSql -I/opt/Qt/5.5/gcc/include/QtCore -I. ../PeopleTracker/peopletracker.h -o moc_peopletracker.cpp
 
@@ -848,6 +851,9 @@ main.o: ../PeopleTracker/main.cpp ../PeopleTracker/peopletracker.h \
 		/opt/Qt/5.5/gcc/include/QtSql/qsqlerror.h \
 		/opt/Qt/5.5/gcc/include/QtCore/QDebug \
 		/opt/Qt/5.5/gcc/include/QtCore/QModelIndex \
+		/opt/Qt/5.5/gcc/include/QtSql/QSqlTableModel \
+		/opt/Qt/5.5/gcc/include/QtSql/qsqltablemodel.h \
+		/opt/Qt/5.5/gcc/include/QtSql/qsqlquerymodel.h \
 		/opt/Qt/5.5/gcc/include/QtWidgets/QApplication \
 		/opt/Qt/5.5/gcc/include/QtWidgets/qapplication.h \
 		/opt/Qt/5.5/gcc/include/QtCore/qcoreapplication.h \
@@ -1003,6 +1009,9 @@ peopletracker.o: ../PeopleTracker/peopletracker.cpp ../PeopleTracker/peopletrack
 		/opt/Qt/5.5/gcc/include/QtSql/qsqlerror.h \
 		/opt/Qt/5.5/gcc/include/QtCore/QDebug \
 		/opt/Qt/5.5/gcc/include/QtCore/QModelIndex \
+		/opt/Qt/5.5/gcc/include/QtSql/QSqlTableModel \
+		/opt/Qt/5.5/gcc/include/QtSql/qsqltablemodel.h \
+		/opt/Qt/5.5/gcc/include/QtSql/qsqlquerymodel.h \
 		ui_peopletracker.h \
 		/opt/Qt/5.5/gcc/include/QtCore/QVariant \
 		/opt/Qt/5.5/gcc/include/QtWidgets/QAction \

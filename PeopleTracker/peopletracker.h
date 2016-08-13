@@ -60,6 +60,12 @@ private slots:
 
     void on_actionDelete_triggered();
 
+    void on_actionFind_name_triggered();
+
+    void on_saveButton_2_clicked();
+
+    void on_updateButton_clicked();
+
 private:
     Ui::peopleTracker *ui;
     QStringListModel *people;
