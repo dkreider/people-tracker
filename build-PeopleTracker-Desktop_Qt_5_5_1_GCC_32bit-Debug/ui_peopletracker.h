@@ -128,7 +128,7 @@ public:
         addressEdit->setGeometry(QRect(270, 220, 451, 101));
         label = new QLabel(centralWidget);
         label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(270, 210, 67, 17));
+        label->setGeometry(QRect(270, 190, 67, 17));
         trackingLabel = new QLabel(centralWidget);
         trackingLabel->setObjectName(QStringLiteral("trackingLabel"));
         trackingLabel->setGeometry(QRect(237, 130, 117, 27));
@@ -138,6 +138,7 @@ public:
         searchBox = new QLineEdit(centralWidget);
         searchBox->setObjectName(QStringLiteral("searchBox"));
         searchBox->setGeometry(QRect(10, 10, 221, 27));
+        searchBox->setToolTipDuration(-1);
         peopleTracker->setCentralWidget(centralWidget);
         listView->raise();
         commentsEdit->raise();
@@ -230,7 +231,13 @@ public:
 #endif // QT_NO_TOOLTIP
         updateButton->setText(QApplication::translate("peopleTracker", "Update", 0));
         updateButton->setShortcut(QApplication::translate("peopleTracker", "Ctrl+S", 0));
-        searchBox->setText(QApplication::translate("peopleTracker", "Search...", 0));
+#ifndef QT_NO_TOOLTIP
+        searchBox->setToolTip(QApplication::translate("peopleTracker", "Type search term and press enter...", 0));
+#endif // QT_NO_TOOLTIP
+#ifndef QT_NO_WHATSTHIS
+        searchBox->setWhatsThis(QApplication::translate("peopleTracker", "<html><head/><body><p>Search...</p></body></html>", 0));
+#endif // QT_NO_WHATSTHIS
+        searchBox->setText(QString());
         menuType->setTitle(QApplication::translate("peopleTracker", "File", 0));
         menuEdit->setTitle(QApplication::translate("peopleTracker", "Edit", 0));
         menuHelp->setTitle(QApplication::translate("peopleTracker", "Help", 0));

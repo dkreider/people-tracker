@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_peopleTracker_t {
-    QByteArrayData data[16];
-    char stringdata0[345];
+    QByteArrayData data[17];
+    char stringdata0[372];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -44,7 +44,8 @@ QT_MOC_LITERAL(11, 217, 24), // "on_actionClose_triggered"
 QT_MOC_LITERAL(12, 242, 25), // "on_actionDelete_triggered"
 QT_MOC_LITERAL(13, 268, 28), // "on_actionFind_name_triggered"
 QT_MOC_LITERAL(14, 297, 23), // "on_saveButton_2_clicked"
-QT_MOC_LITERAL(15, 321, 23) // "on_updateButton_clicked"
+QT_MOC_LITERAL(15, 321, 23), // "on_updateButton_clicked"
+QT_MOC_LITERAL(16, 345, 26) // "on_searchBox_returnPressed"
 
     },
     "peopleTracker\0on_clearButton_clicked\0"
@@ -57,7 +58,8 @@ QT_MOC_LITERAL(15, 321, 23) // "on_updateButton_clicked"
     "on_actionClose_triggered\0"
     "on_actionDelete_triggered\0"
     "on_actionFind_name_triggered\0"
-    "on_saveButton_2_clicked\0on_updateButton_clicked"
+    "on_saveButton_2_clicked\0on_updateButton_clicked\0"
+    "on_searchBox_returnPressed"
 };
 #undef QT_MOC_LITERAL
 
@@ -67,7 +69,7 @@ static const uint qt_meta_data_peopleTracker[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      14,   14, // methods
+      15,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -75,20 +77,21 @@ static const uint qt_meta_data_peopleTracker[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   84,    2, 0x08 /* Private */,
-       3,    0,   85,    2, 0x08 /* Private */,
-       4,    0,   86,    2, 0x08 /* Private */,
-       5,    0,   87,    2, 0x08 /* Private */,
-       6,    0,   88,    2, 0x08 /* Private */,
-       7,    0,   89,    2, 0x08 /* Private */,
-       8,    0,   90,    2, 0x08 /* Private */,
-       8,    1,   91,    2, 0x08 /* Private */,
-      10,    0,   94,    2, 0x08 /* Private */,
-      11,    0,   95,    2, 0x08 /* Private */,
-      12,    0,   96,    2, 0x08 /* Private */,
-      13,    0,   97,    2, 0x08 /* Private */,
-      14,    0,   98,    2, 0x08 /* Private */,
-      15,    0,   99,    2, 0x08 /* Private */,
+       1,    0,   89,    2, 0x08 /* Private */,
+       3,    0,   90,    2, 0x08 /* Private */,
+       4,    0,   91,    2, 0x08 /* Private */,
+       5,    0,   92,    2, 0x08 /* Private */,
+       6,    0,   93,    2, 0x08 /* Private */,
+       7,    0,   94,    2, 0x08 /* Private */,
+       8,    0,   95,    2, 0x08 /* Private */,
+       8,    1,   96,    2, 0x08 /* Private */,
+      10,    0,   99,    2, 0x08 /* Private */,
+      11,    0,  100,    2, 0x08 /* Private */,
+      12,    0,  101,    2, 0x08 /* Private */,
+      13,    0,  102,    2, 0x08 /* Private */,
+      14,    0,  103,    2, 0x08 /* Private */,
+      15,    0,  104,    2, 0x08 /* Private */,
+      16,    0,  105,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -99,6 +102,7 @@ static const uint qt_meta_data_peopleTracker[] = {
     QMetaType::Void,
     QMetaType::QString,
     QMetaType::Void, QMetaType::QModelIndex,    9,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -130,6 +134,7 @@ void peopleTracker::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 11: _t->on_actionFind_name_triggered(); break;
 
         case 13: _t->on_updateButton_clicked(); break;
+        case 14: _t->on_searchBox_returnPressed(); break;
         default: ;
         }
     }
@@ -160,13 +165,13 @@ int peopleTracker::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 14)
+        if (_id < 15)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 14;
+        _id -= 15;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 14)
+        if (_id < 15)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 14;
+        _id -= 15;
     }
     return _id;
 }

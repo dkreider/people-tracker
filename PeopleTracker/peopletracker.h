@@ -20,6 +20,7 @@
 #include <QModelIndex>
 #include <QSqlTableModel>
 
+
 namespace Ui {
 class peopleTracker;
 }
@@ -33,6 +34,8 @@ public:
     void appendNameToDataBase(QString Name);
     void addPerson(QString Name);
     void loadNames(QString path_to_database);
+    void copyDatabase();
+    void eventLogger(QString text);
     QString isPersonSelected();
 
     ~peopleTracker();
@@ -65,6 +68,8 @@ private slots:
     void on_saveButton_2_clicked();
 
     void on_updateButton_clicked();
+
+    void on_searchBox_returnPressed();
 
 private:
     Ui::peopleTracker *ui;

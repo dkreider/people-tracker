@@ -7,6 +7,8 @@ peopleTracker::peopleTracker(QWidget *parent) :
 {
     ui->setupUi(this);
     people = new QStringListModel(this);
+    // Make copy of database to "play it safe".
+    copyDatabase();
     // Load names
     loadNames("people.db");
 }
@@ -316,7 +318,7 @@ void peopleTracker::on_updateButton_clicked()
     if(ui->nameEdit->text() == NULL) {
         QMessageBox::warning(this,
                              tr("Error"),
-                             tr("I cannot update anything if no customer is selected"),
+                             tr("Unable to update because no one is selected."),
                              QMessageBox::Ok);
         return;
     }
@@ -376,4 +378,82 @@ void peopleTracker::on_updateButton_clicked()
             }
          }
      }
+}
+
+void peopleTracker::copyDatabase()
+{
+    QFile database("people.db");
+    QFile backup("people-backup.db");
+    if(!database.open(QIODevice::ReadOnly)) {
+        return;
+    }
+    if(!backup.open(QIODevice::WriteOnly)) {
+       return;
+    }
+    if(backup.write(database.readAll())) {
+       return;
+    }
+}
+
+void peopleTracker::on_searchBox_returnPressed()
+{
+    if(ui->searchBox->text() == NULL) {
+        loadNames("people.db");
+        return;
+    }
+
+    else {
+        QString searchTerm = ui->searchBox->text();
+        QSqlDatabase database;
+        database = QSqlDatabase::addDatabase("QSQLITE");
+        database.setDatabaseName("people.db");
+
+
+        if (!database.open())
+        {
+            QMessageBox::critical(this,
+                            tr("SQL open error"),
+                            database.lastError().text());
+            database.close();
+            return;
+
+        }
+
+        else {
+            QStringList names;
+            QSqlQuery search;
+            search.prepare("SELECT name, email, address, trackingNumber, comments FROM people");
+            if(search.exec()) {
+                while(search.next()) {
+                    if(search.value(0) == searchTerm) {
+                        QString name = search.value(0).toString();
+                        names.append(name);
+                    }
+                    else if(search.value(1) == searchTerm) {
+                        QString name = search.value(0).toString();
+                        names.append(name);
+                    }
+                    else if(search.value(2) == searchTerm) {
+                        QString name = search.value(0).toString();
+                        names.append(name);
+                    }
+                    else if(search.value(3) == searchTerm) {
+                        QString name = search.value(0).toString();
+                        names.append(name);
+                    }
+                // Glue model and listView together
+                people->setStringList(names);
+                ui->listView->setModel(people);
+                }
+                qDebug () << "Finished searching database.";
+            }
+
+            else {
+                QMessageBox::critical(this,
+                                      tr("Error searching SQL database"),
+                                      search.lastError().text());
+            }
+
+        }
+    }
 }
