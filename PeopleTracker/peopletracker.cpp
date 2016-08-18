@@ -87,7 +87,7 @@ void peopleTracker::on_saveButton_clicked()
                         add.bindValue(":address", address);
                         add.bindValue(":comments", comments);
                         if(add.exec()) {
-                            loadNames("people.db");                           
+                            loadNames("people.db");
                             on_clearButton_clicked();
                             database.close();
                             return;
@@ -362,11 +362,16 @@ void peopleTracker::on_updateButton_clicked()
                     update.bindValue(":comments", comments);
                     update.bindValue(":selectedName", selectedName);
                     if(update.exec()) {
-                        loadNames("people.db");
-                        // clear screen.
-                        on_clearButton_clicked();
-                        database.close();
-                        return;
+                        if(ui->searchBox->text() != NULL) {
+                            database.close();
+                            return;
+                        }
+                        else {
+                            loadNames("people.db");
+                            on_clearButton_clicked();
+                            database.close();
+                            return;
+                        }
                     }
               }
             else {
