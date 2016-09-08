@@ -1,3 +1,21 @@
+/***********
+Tracks Tracker - A simple contact manager built with QT with potential to be expanded into something better...
+    Copyright (C) 2016  Daniel Kreider
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+***********/
+
 #include "peopletracker.h"
 #include "ui_peopletracker.h"
 
@@ -460,5 +478,37 @@ void peopleTracker::on_searchBox_returnPressed()
             }
 
         }
+    }
+}
+
+void peopleTracker::on_actionRestore_triggered()
+{
+    int response = QMessageBox::information(this,
+                    tr("Restore your contacts."),
+                    tr("This wizard will guide you through restoring a database of contacts. Press OK to continue or Cancel to close this wizard"),
+                    QMessageBox::Ok, QMessageBox::Cancel);
+
+    if (response == QMessageBox::Ok) {
+        // Load selected file
+    }
+
+    else {
+        return;
+    }
+}
+
+void peopleTracker::on_actionBackup_2_triggered()
+{
+    int response = QMessageBox::information(this,
+                    tr("Backup your contacts."),
+                    tr("This wizard will guide you through backing up a database of contacts. Press OK to continue or Cancel to close this wizard"),
+                    QMessageBox::Ok, QMessageBox::Cancel);
+
+    if (response == QMessageBox::Ok) {
+        // Prompt for backup file name and place to save.
+    }
+
+    else {
+        return;
     }
 }
