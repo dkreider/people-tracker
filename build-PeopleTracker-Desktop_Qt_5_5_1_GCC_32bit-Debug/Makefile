@@ -33,7 +33,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = PeopleTracker1.0.0
-DISTDIR = /home/daniel/QT/people-tracker/build-PeopleTracker-Desktop_Qt_5_5_1_GCC_32bit-Debug/.tmp/PeopleTracker1.0.0
+DISTDIR = /home/daniel/QT/tracks-tracker/build-PeopleTracker-Desktop_Qt_5_5_1_GCC_32bit-Debug/.tmp/PeopleTracker1.0.0
 LINK          = g++
 LFLAGS        = -m32 -Wl,-rpath,/opt/Qt/5.5/gcc -Wl,-rpath,/opt/Qt/5.5/gcc/lib
 LIBS          = $(SUBLIBS) -L/opt/Qt/5.5/gcc/lib -lQt5Widgets -lQt5Gui -lQt5Sql -lQt5Core -lGL -lpthread 
@@ -687,7 +687,7 @@ moc_peopletracker.cpp: /opt/Qt/5.5/gcc/include/QtWidgets/QMainWindow \
 		/opt/Qt/5.5/gcc/include/QtSql/qsqltablemodel.h \
 		/opt/Qt/5.5/gcc/include/QtSql/qsqlquerymodel.h \
 		../PeopleTracker/peopletracker.h
-	/opt/Qt/5.5/gcc/bin/moc $(DEFINES) -I/opt/Qt/5.5/gcc/mkspecs/linux-g++-32 -I/home/daniel/QT/people-tracker/PeopleTracker -I/opt/Qt/5.5/gcc/include -I/opt/Qt/5.5/gcc/include/QtWidgets -I/opt/Qt/5.5/gcc/include/QtGui -I/opt/Qt/5.5/gcc/include/QtSql -I/opt/Qt/5.5/gcc/include/QtCore -I. ../PeopleTracker/peopletracker.h -o moc_peopletracker.cpp
+	/opt/Qt/5.5/gcc/bin/moc $(DEFINES) -I/opt/Qt/5.5/gcc/mkspecs/linux-g++-32 -I/home/daniel/QT/tracks-tracker/PeopleTracker -I/opt/Qt/5.5/gcc/include -I/opt/Qt/5.5/gcc/include/QtWidgets -I/opt/Qt/5.5/gcc/include/QtGui -I/opt/Qt/5.5/gcc/include/QtSql -I/opt/Qt/5.5/gcc/include/QtCore -I. ../PeopleTracker/peopletracker.h -o moc_peopletracker.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
