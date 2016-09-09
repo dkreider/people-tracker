@@ -49,10 +49,14 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../PeopleTracker/main.cpp \
-		../PeopleTracker/peopletracker.cpp moc_peopletracker.cpp
+		../PeopleTracker/peopletracker.cpp \
+		../PeopleTracker/backup.cpp moc_peopletracker.cpp \
+		moc_backup.cpp
 OBJECTS       = main.o \
 		peopletracker.o \
-		moc_peopletracker.o
+		backup.o \
+		moc_peopletracker.o \
+		moc_backup.o
 DIST          = /opt/Qt/5.5/gcc/mkspecs/features/spec_pre.prf \
 		/opt/Qt/5.5/gcc/mkspecs/common/unix.conf \
 		/opt/Qt/5.5/gcc/mkspecs/common/linux.conf \
@@ -187,8 +191,10 @@ DIST          = /opt/Qt/5.5/gcc/mkspecs/features/spec_pre.prf \
 		/opt/Qt/5.5/gcc/mkspecs/features/exceptions.prf \
 		/opt/Qt/5.5/gcc/mkspecs/features/yacc.prf \
 		/opt/Qt/5.5/gcc/mkspecs/features/lex.prf \
-		../PeopleTracker/PeopleTracker.pro ../PeopleTracker/peopletracker.h ../PeopleTracker/main.cpp \
-		../PeopleTracker/peopletracker.cpp
+		../PeopleTracker/PeopleTracker.pro ../PeopleTracker/peopletracker.h \
+		../PeopleTracker/backup.h ../PeopleTracker/main.cpp \
+		../PeopleTracker/peopletracker.cpp \
+		../PeopleTracker/backup.cpp
 QMAKE_TARGET  = PeopleTracker
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = PeopleTracker
@@ -216,7 +222,7 @@ first: all
 
 ####### Build rules
 
-$(TARGET): ui_peopletracker.h $(OBJECTS)  
+$(TARGET): ui_peopletracker.h ui_backup.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: ../PeopleTracker/PeopleTracker.pro /opt/Qt/5.5/gcc/mkspecs/linux-g++-32/qmake.conf /opt/Qt/5.5/gcc/mkspecs/features/spec_pre.prf \
@@ -512,9 +518,9 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../PeopleTracker/peopletracker.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../PeopleTracker/main.cpp ../PeopleTracker/peopletracker.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../PeopleTracker/peopletracker.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../PeopleTracker/peopletracker.h ../PeopleTracker/backup.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../PeopleTracker/main.cpp ../PeopleTracker/peopletracker.cpp ../PeopleTracker/backup.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../PeopleTracker/peopletracker.ui ../PeopleTracker/backup.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -537,9 +543,9 @@ check: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_peopletracker.cpp
+compiler_moc_header_make_all: moc_peopletracker.cpp moc_backup.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_peopletracker.cpp
+	-$(DEL_FILE) moc_peopletracker.cpp moc_backup.cpp
 moc_peopletracker.cpp: /opt/Qt/5.5/gcc/include/QtWidgets/QMainWindow \
 		/opt/Qt/5.5/gcc/include/QtWidgets/qmainwindow.h \
 		/opt/Qt/5.5/gcc/include/QtWidgets/qwidget.h \
@@ -686,16 +692,126 @@ moc_peopletracker.cpp: /opt/Qt/5.5/gcc/include/QtWidgets/QMainWindow \
 		/opt/Qt/5.5/gcc/include/QtSql/QSqlTableModel \
 		/opt/Qt/5.5/gcc/include/QtSql/qsqltablemodel.h \
 		/opt/Qt/5.5/gcc/include/QtSql/qsqlquerymodel.h \
+		../PeopleTracker/backup.h \
+		/opt/Qt/5.5/gcc/include/QtWidgets/QWidget \
 		../PeopleTracker/peopletracker.h
 	/opt/Qt/5.5/gcc/bin/moc $(DEFINES) -I/opt/Qt/5.5/gcc/mkspecs/linux-g++-32 -I/home/daniel/QT/tracks-tracker/PeopleTracker -I/opt/Qt/5.5/gcc/include -I/opt/Qt/5.5/gcc/include/QtWidgets -I/opt/Qt/5.5/gcc/include/QtGui -I/opt/Qt/5.5/gcc/include/QtSql -I/opt/Qt/5.5/gcc/include/QtCore -I. ../PeopleTracker/peopletracker.h -o moc_peopletracker.cpp
 
+moc_backup.cpp: /opt/Qt/5.5/gcc/include/QtWidgets/QWidget \
+		/opt/Qt/5.5/gcc/include/QtWidgets/qwidget.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qwindowdefs.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qglobal.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qconfig.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qfeatures.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qsystemdetection.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qprocessordetection.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qcompilerdetection.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qtypeinfo.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qtypetraits.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qsysinfo.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qlogging.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qflags.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qbasicatomic.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qgenericatomic.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic_gcc.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic_msvc.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic_armv7.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic_armv6.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic_armv5.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic_ia64.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic_mips.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic_x86.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic_unix.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qglobalstatic.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qmutex.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qnumeric.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qobjectdefs.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qnamespace.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qobject.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qstring.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qchar.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qbytearray.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qrefcount.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qarraydata.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qstringbuilder.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qlist.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qalgorithms.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qiterator.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qbytearraylist.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qstringlist.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qregexp.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qstringmatcher.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qcoreevent.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qscopedpointer.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qmetatype.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qvarlengtharray.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qcontainerfwd.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qisenum.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qobject_impl.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qmargins.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qpaintdevice.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qrect.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qsize.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qpoint.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qpalette.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qcolor.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qrgb.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qbrush.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qpair.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qvector.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qmatrix.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qpolygon.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qregion.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qdatastream.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qiodevice.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qline.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qtransform.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qpainterpath.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qimage.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qpixelformat.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qpixmap.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qsharedpointer.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qshareddata.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qhash.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qfont.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qfontmetrics.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qfontinfo.h \
+		/opt/Qt/5.5/gcc/include/QtWidgets/qsizepolicy.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qcursor.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qkeysequence.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qevent.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qvariant.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qmap.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qdebug.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qtextstream.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qlocale.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qset.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qcontiguouscache.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qurl.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qurlquery.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qfile.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qfiledevice.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qvector2d.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qtouchdevice.h \
+		../PeopleTracker/backup.h
+	/opt/Qt/5.5/gcc/bin/moc $(DEFINES) -I/opt/Qt/5.5/gcc/mkspecs/linux-g++-32 -I/home/daniel/QT/tracks-tracker/PeopleTracker -I/opt/Qt/5.5/gcc/include -I/opt/Qt/5.5/gcc/include/QtWidgets -I/opt/Qt/5.5/gcc/include/QtGui -I/opt/Qt/5.5/gcc/include/QtSql -I/opt/Qt/5.5/gcc/include/QtCore -I. ../PeopleTracker/backup.h -o moc_backup.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_peopletracker.h
+compiler_uic_make_all: ui_peopletracker.h ui_backup.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_peopletracker.h
+	-$(DEL_FILE) ui_peopletracker.h ui_backup.h
 ui_peopletracker.h: ../PeopleTracker/peopletracker.ui
 	/opt/Qt/5.5/gcc/bin/uic ../PeopleTracker/peopletracker.ui -o ui_peopletracker.h
+
+ui_backup.h: ../PeopleTracker/backup.ui
+	/opt/Qt/5.5/gcc/bin/uic ../PeopleTracker/backup.ui -o ui_backup.h
 
 compiler_yacc_decl_make_all:
 compiler_yacc_decl_clean:
@@ -854,6 +970,8 @@ main.o: ../PeopleTracker/main.cpp ../PeopleTracker/peopletracker.h \
 		/opt/Qt/5.5/gcc/include/QtSql/QSqlTableModel \
 		/opt/Qt/5.5/gcc/include/QtSql/qsqltablemodel.h \
 		/opt/Qt/5.5/gcc/include/QtSql/qsqlquerymodel.h \
+		../PeopleTracker/backup.h \
+		/opt/Qt/5.5/gcc/include/QtWidgets/QWidget \
 		/opt/Qt/5.5/gcc/include/QtWidgets/QApplication \
 		/opt/Qt/5.5/gcc/include/QtWidgets/qapplication.h \
 		/opt/Qt/5.5/gcc/include/QtCore/qcoreapplication.h \
@@ -1012,6 +1130,8 @@ peopletracker.o: ../PeopleTracker/peopletracker.cpp ../PeopleTracker/peopletrack
 		/opt/Qt/5.5/gcc/include/QtSql/QSqlTableModel \
 		/opt/Qt/5.5/gcc/include/QtSql/qsqltablemodel.h \
 		/opt/Qt/5.5/gcc/include/QtSql/qsqlquerymodel.h \
+		../PeopleTracker/backup.h \
+		/opt/Qt/5.5/gcc/include/QtWidgets/QWidget \
 		ui_peopletracker.h \
 		/opt/Qt/5.5/gcc/include/QtCore/QVariant \
 		/opt/Qt/5.5/gcc/include/QtWidgets/QAction \
@@ -1049,12 +1169,120 @@ peopletracker.o: ../PeopleTracker/peopletracker.cpp ../PeopleTracker/peopletrack
 		/opt/Qt/5.5/gcc/include/QtWidgets/qtextedit.h \
 		/opt/Qt/5.5/gcc/include/QtGui/qtextdocument.h \
 		/opt/Qt/5.5/gcc/include/QtWidgets/QToolBar \
-		/opt/Qt/5.5/gcc/include/QtWidgets/qtoolbar.h \
-		/opt/Qt/5.5/gcc/include/QtWidgets/QWidget
+		/opt/Qt/5.5/gcc/include/QtWidgets/qtoolbar.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o peopletracker.o ../PeopleTracker/peopletracker.cpp
+
+backup.o: ../PeopleTracker/backup.cpp ../PeopleTracker/backup.h \
+		/opt/Qt/5.5/gcc/include/QtWidgets/QWidget \
+		/opt/Qt/5.5/gcc/include/QtWidgets/qwidget.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qwindowdefs.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qglobal.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qconfig.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qfeatures.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qsystemdetection.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qprocessordetection.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qcompilerdetection.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qtypeinfo.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qtypetraits.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qsysinfo.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qlogging.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qflags.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qbasicatomic.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qgenericatomic.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic_gcc.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic_msvc.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic_armv7.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic_armv6.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic_armv5.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic_ia64.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic_mips.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic_x86.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qatomic_unix.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qglobalstatic.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qmutex.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qnumeric.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qobjectdefs.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qnamespace.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qwindowdefs_win.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qobject.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qstring.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qchar.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qbytearray.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qrefcount.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qarraydata.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qstringbuilder.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qlist.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qalgorithms.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qiterator.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qbytearraylist.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qstringlist.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qregexp.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qstringmatcher.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qcoreevent.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qscopedpointer.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qmetatype.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qvarlengtharray.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qcontainerfwd.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qisenum.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qobject_impl.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qmargins.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qpaintdevice.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qrect.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qsize.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qpoint.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qpalette.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qcolor.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qrgb.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qbrush.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qpair.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qvector.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qmatrix.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qpolygon.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qregion.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qdatastream.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qiodevice.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qline.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qtransform.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qpainterpath.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qimage.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qpixelformat.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qpixmap.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qsharedpointer.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qshareddata.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qhash.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qsharedpointer_impl.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qfont.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qfontmetrics.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qfontinfo.h \
+		/opt/Qt/5.5/gcc/include/QtWidgets/qsizepolicy.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qcursor.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qkeysequence.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qevent.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qvariant.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qmap.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qdebug.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qtextstream.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qlocale.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qset.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qcontiguouscache.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qurl.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qurlquery.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qfile.h \
+		/opt/Qt/5.5/gcc/include/QtCore/qfiledevice.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qvector2d.h \
+		/opt/Qt/5.5/gcc/include/QtGui/qtouchdevice.h \
+		ui_backup.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o backup.o ../PeopleTracker/backup.cpp
 
 moc_peopletracker.o: moc_peopletracker.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_peopletracker.o moc_peopletracker.cpp
+
+moc_backup.o: moc_backup.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_backup.o moc_backup.cpp
 
 ####### Install
 

@@ -132,6 +132,7 @@ void peopleTracker::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 2: _t->on_deleteButton_clicked(); break;
         case 3: _t->on_actionExit_triggered(); break;
         case 4: _t->on_actionAbout_triggered(); break;
+
         case 6: { QString _r = _t->on_listView_clicked();
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = _r; }  break;
         case 7: _t->on_listView_clicked((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
@@ -139,6 +140,7 @@ void peopleTracker::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 9: _t->on_actionClose_triggered(); break;
         case 10: _t->on_actionDelete_triggered(); break;
         case 11: _t->on_actionFind_name_triggered(); break;
+
         case 13: _t->on_updateButton_clicked(); break;
         case 14: _t->on_searchBox_returnPressed(); break;
         case 15: _t->on_actionRestore_triggered(); break;
