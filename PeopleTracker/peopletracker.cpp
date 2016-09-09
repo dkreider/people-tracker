@@ -499,16 +499,6 @@ void peopleTracker::on_actionRestore_triggered()
 
 void peopleTracker::on_actionBackup_2_triggered()
 {
-    int response = QMessageBox::information(this,
-                    tr("Backup your contacts."),
-                    tr("This wizard will guide you through backing up a database of contacts. Press OK to continue or Cancel to close this wizard"),
-                    QMessageBox::Ok, QMessageBox::Cancel);
-
-    if (response == QMessageBox::Ok) {
-        // Prompt for backup file name and place to save.
-    }
-
-    else {
-        return;
-    }
+        backupWindow = new backup();
+        backupWindow->show();
 }

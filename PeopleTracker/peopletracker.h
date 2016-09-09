@@ -37,7 +37,7 @@ Tracks Tracker - A simple contact manager built with QT with potential to be exp
 #include <QDebug>
 #include <QModelIndex>
 #include <QSqlTableModel>
-
+#include "backup.h"
 
 namespace Ui {
 class peopleTracker;
@@ -97,6 +97,7 @@ private:
     Ui::peopleTracker *ui;
     QStringListModel *people;
     QStringList *List;
+    backup *backupWindow;
 };
 
 #endif // PEOPLETRACKER_H
