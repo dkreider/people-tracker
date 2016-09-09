@@ -12,7 +12,7 @@ You will need:
 
 	B. Git - I'll assume you know what I'm referring to.
 
-Clone the repository to your local pc. Open the PeopleTracker.pro file located in the PeopleTracker folder in QT Creator. Press Ctrl + Shift + B to build and run the project.
+Clone the repository to your local pc. Use QT to open the PeopleTracker.pro file located in the PeopleTracker folder. Press Ctrl + Shift + B to build and run the project.
 
 3.Contributions or ideas.
 
