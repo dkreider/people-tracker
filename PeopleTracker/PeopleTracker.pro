@@ -33,10 +33,13 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         peopletracker.cpp \
-    backup.cpp
+    backup.cpp \
+    restore.cpp
 
 HEADERS  += peopletracker.h \
-    backup.h
+    backup.h \
+    restore.h
 
 FORMS    += peopletracker.ui \
-    backup.ui
+    backup.ui \
+    restore.ui

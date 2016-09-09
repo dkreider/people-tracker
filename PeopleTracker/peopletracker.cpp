@@ -483,18 +483,8 @@ void peopleTracker::on_searchBox_returnPressed()
 
 void peopleTracker::on_actionRestore_triggered()
 {
-    int response = QMessageBox::information(this,
-                    tr("Restore your contacts."),
-                    tr("This wizard will guide you through restoring a database of contacts. Press OK to continue or Cancel to close this wizard"),
-                    QMessageBox::Ok, QMessageBox::Cancel);
-
-    if (response == QMessageBox::Ok) {
-        // Load selected file
-    }
-
-    else {
-        return;
-    }
+        restoreWindow = new restore();
+        restoreWindow->show();
 }
 
 void peopleTracker::on_actionBackup_2_triggered()
