@@ -213,7 +213,7 @@ public:
 #ifndef QT_NO_TOOLTIP
         saveButton->setToolTip(QApplication::translate("peopleTracker", "Save selected person", 0));
 #endif // QT_NO_TOOLTIP
-        saveButton->setText(QApplication::translate("peopleTracker", "Save", 0));
+        saveButton->setText(QApplication::translate("peopleTracker", "Add", 0));
         saveButton->setShortcut(QApplication::translate("peopleTracker", "Ctrl+S", 0));
 #ifndef QT_NO_TOOLTIP
         clearButton->setToolTip(QApplication::translate("peopleTracker", "Clear current screen.", 0));
